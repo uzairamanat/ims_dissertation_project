@@ -7,8 +7,11 @@ import { themeSettings } from "theme";
 import Dashboard from "pages/dashboard";
 import Layout from "pages/Layout";
 import Products from "pages/Products";
+import NewProduct from "pages/NewProduct";
+import EditProduct from "pages/EditProduct";
 import Customers from "pages/Customers";
 import Orders from "pages/Orders";
+
 
 function App() {
   const mode = useSelector((state) => state.global.mode);
@@ -24,6 +27,8 @@ function App() {
               <Route path="/" element={<Navigate to="/dashboard" replace />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/products" element={<Products />} />
+              <Route path="/products/edit/:id" element={<EditProduct />} />
+              <Route path="/products/new" element={<NewProduct />} />
               <Route path="/customers" element={<Customers />} />
               <Route path="/orders" element={<Orders />} />
             </Route>
