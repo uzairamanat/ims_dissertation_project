@@ -10,6 +10,8 @@ import Products from "pages/Products";
 import NewProduct from "pages/NewProduct";
 import EditProduct from "pages/EditProduct";
 import Customers from "pages/Customers";
+import NewCustomer from "pages/NewCustomer";
+import EditCustomer from "pages/EditCustomer";
 import Orders from "pages/Orders";
 
 
@@ -30,6 +32,8 @@ function App() {
               <Route path="/products/edit/:id" element={<EditProduct />} />
               <Route path="/products/new" element={<NewProduct />} />
               <Route path="/customers" element={<Customers />} />
+              <Route path="/customers/new" element={<NewCustomer />} />
+              <Route path="/customers/edit/:id" element={<EditCustomer />} />
               <Route path="/orders" element={<Orders />} />
             </Route>
           </Routes>

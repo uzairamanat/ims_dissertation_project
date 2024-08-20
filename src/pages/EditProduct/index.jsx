@@ -46,7 +46,7 @@ const EditProduct = () => {
     };
 
     return (
-        <Box component="form" onSubmit={handleSubmit}>
+        <Box component="form" onSubmit={handleSubmit} sx={{ padding: 1, maxWidth: 400}}>
             <TextField
                 label="Brand"
                 name="brand"

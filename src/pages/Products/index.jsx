@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
     Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, 
     Button, IconButton, Paper, TextField, MenuItem, Select, FormControl, 
-    InputLabel
+    InputLabel, Slider, Typography
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -15,6 +15,8 @@ const Products = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [categoryFilter, setCategoryFilter] = useState('');
     const [brandFilter, setBrandFilter] = useState('');
+    const [priceRange, setPriceRange] = useState([0, 100]);  // Default price range (0 to 100)
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -34,8 +36,17 @@ const Products = () => {
         navigate(`/products/edit/${id}`);
     };
 
-    const handleDelete = (id) => {
-        // Add your delete functionality here
+    const handleDelete = async (id) => {
+        try {
+            await axios.delete(`/api/products/${id}`);
+            setProducts(products.filter(product => product._id !== id));
+        } catch (error) {
+            console.error('Error deleting product:', error);
+        }
+    };
+
+    const handlePriceRangeChange = (event, newValue) => {
+        setPriceRange(newValue);
     };
 
     const filteredProducts = products.filter(product => {
@@ -43,26 +54,27 @@ const Products = () => {
             (product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
             product.SKU.toLowerCase().includes(searchTerm.toLowerCase())) &&
             (categoryFilter ? product.category === categoryFilter : true) &&
-            (brandFilter ? product.brand === brandFilter : true)
+            (brandFilter ? product.brand === brandFilter : true) &&
+            product.price >= priceRange[0] && product.price <= priceRange[1]
         );
     });
 
     return (
-        <Box sx={{ ml: "3px"}}>
+        <Box sx={{ml: 1}}>
             <Header title="PRODUCTS" subtitle="All current products available in the inventory." />
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2, mt: 1 }}>
                 <Button variant="contained" color="primary" onClick={() => navigate('/products/new')}>
-                    Add New Product
+                    New Product
                 </Button>
-                <Box sx={{ display: 'flex', gap: 2 }}>
+                <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
                     <TextField
-                        label="Search"
+                        label="Search..."
                         variant="outlined"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        sx={{ minWidth: 200 }}
+                        sx={{ width: 150, maxWidth: '100%', height: 40}}
                     />
-                    <FormControl variant="outlined" sx={{ minWidth: 150 }}>
+                    <FormControl variant="outlined" sx={{ minWidth: 120, maxWidth: 150 }}>
                         <InputLabel>Category</InputLabel>
                         <Select
                             value={categoryFilter}
@@ -78,7 +90,7 @@ const Products = () => {
                             <MenuItem value="Pulses">Pulses</MenuItem>
                         </Select>
                     </FormControl>
-                    <FormControl variant="outlined" sx={{ minWidth: 150 }}>
+                    <FormControl variant="outlined" sx={{ minWidth: 120, maxWidth: 150 }}>
                         <InputLabel>Brand</InputLabel>
                         <Select
                             value={brandFilter}
@@ -95,10 +107,22 @@ const Products = () => {
                             <MenuItem value="Rozee">Rozee</MenuItem>
                         </Select>
                     </FormControl>
+                    <Box sx={{ width: 250, paddingLeft: 2 }}>
+                        <Typography gutterBottom>Price Range</Typography>
+                        <Slider
+                            value={priceRange}
+                            onChange={handlePriceRangeChange}
+                            valueLabelDisplay="auto"
+                            min={0}
+                            max={100}
+                            step={1}
+                            sx={{ width: '90%' }}
+                        />
+                    </Box>
                 </Box>
             </Box>
-            <TableContainer component={Paper} sx={{backgroundColor: 'transparent'}}>
-                <Table size="small">
+            <TableContainer component={Paper} sx={{ maxHeight: 500, backgroundColor: 'transparent' }}>
+                <Table size="small" stickyHeader>
                     <TableHead>
                         <TableRow>
                             <TableCell sx={{ fontWeight: 'bold' }}>Brand</TableCell>

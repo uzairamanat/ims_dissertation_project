@@ -26,7 +26,7 @@ const NewProduct = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('/api/products', product);
+            await axios.post('http://localhost:5000/api/products', product);
             navigate('/products');
         } catch (error) {
             console.error('Error creating product:', error);
@@ -34,7 +34,7 @@ const NewProduct = () => {
     };
 
     return (
-        <Box component="form" onSubmit={handleSubmit}>
+        <Box component="form" onSubmit={handleSubmit} sx={{ padding: 1, maxWidth: 400}}>
             <TextField
                 label="Brand"
                 name="brand"
