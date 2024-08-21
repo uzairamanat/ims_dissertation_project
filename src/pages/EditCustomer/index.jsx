@@ -12,7 +12,7 @@ const EditCustomer = () => {
         email: '',
         phone: '',
         city: '',
-        address: ''
+        streetAddress: ''
     });
 
     useEffect(() => {
@@ -79,7 +79,7 @@ const EditCustomer = () => {
             <TextField
                 label="Address"
                 name="address"
-                value={customer.address}
+                value={customer.streetAddress}
                 onChange={handleChange}
                 fullWidth
                 margin="normal"

@@ -59,22 +59,10 @@ router.post('/', async (req, res) => {
     }
 });
 
-
-// Create a new order
-router.post('/', async (req, res) => {
-    try {
-        const newOrder = new Order(req.body);
-        const savedOrder = await newOrder.save();
-        res.status(201).json(savedOrder);
-    } catch (err) {
-        res.status(400).json({ message: err.message });
-    }
-});
-
 // Get all orders
 router.get('/', async (req, res) => {
     try {
-        const orders = await Order.find().populate('customer').populate('products.product');
+        const orders = await Order.find().populate('customer').populate('items.product');
         res.status(200).json(orders);
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -84,7 +72,7 @@ router.get('/', async (req, res) => {
 // Get a specific order by ID
 router.get('/:id', async (req, res) => {
     try {
-        const order = await Order.findById(req.params.id).populate('customer').populate('products.product');
+        const order = await Order.findById(req.params.id).populate('customer').populate('items.product');
         if (order) {
             res.status(200).json(order);
         } else {
@@ -94,6 +82,7 @@ router.get('/:id', async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 });
+
 
 // Update an order by ID
 router.put('/:id', async (req, res) => {

@@ -9,7 +9,7 @@ const NewCustomer = () => {
         email: '',
         phone: '',
         city: '',
-        address: ''
+        streetAddress: ''
     });
     const navigate = useNavigate();
 
@@ -69,7 +69,7 @@ const NewCustomer = () => {
             <TextField
                 label="Address"
                 name="address"
-                value={customer.address}
+                value={customer.streetAddress}
                 onChange={handleChange}
                 required
                 fullWidth

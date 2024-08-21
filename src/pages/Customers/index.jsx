@@ -104,7 +104,7 @@ const Customers = () => {
                                 <TableCell>{customer.email}</TableCell>
                                 <TableCell>{customer.phone}</TableCell>
                                 <TableCell>{customer.city}</TableCell>
-                                <TableCell>{customer.address}</TableCell>
+                                <TableCell>{customer.streetAddress}</TableCell>
                                 <TableCell>
                                     <IconButton onClick={() => handleEdit(customer._id)} size="small">
                                         <EditIcon />

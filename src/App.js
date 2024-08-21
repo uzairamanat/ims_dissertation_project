@@ -13,6 +13,9 @@ import Customers from "pages/Customers";
 import NewCustomer from "pages/NewCustomer";
 import EditCustomer from "pages/EditCustomer";
 import Orders from "pages/Orders";
+import NewOrder from "pages/NewOrder";
+import EditOrder from "pages/EditOrder";
+console.log(EditOrder);
 
 
 function App() {
@@ -35,6 +38,8 @@ function App() {
               <Route path="/customers/new" element={<NewCustomer />} />
               <Route path="/customers/edit/:id" element={<EditCustomer />} />
               <Route path="/orders" element={<Orders />} />
+              <Route path="/orders/new" element={<NewOrder />} />
+              <Route path="orders/edit/:id" element={<EditOrder />} />
             </Route>
           </Routes>
         </ThemeProvider>
