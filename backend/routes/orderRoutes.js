@@ -4,57 +4,49 @@ const Order = require('../models/Order');
 const Customer = require('../models/Customer');
 const Product = require('../models/product');
 
-// Create a new order using customer name and product name or SKU
+// Create a new order using customer name and product name/SKU
 router.post('/', async (req, res) => {
     try {
         const { customerName, items } = req.body;
 
-        // Find the customer by name
-        const customer = await Customer.findOne({ name: customerName });
+        // Find the customer by ID
+        const customer = await Customer.findById(customerName);
         if (!customer) {
             return res.status(404).json({ message: 'Customer not found' });
         }
 
-        let totalAmount = 0; // Initialize total amount for the order
+        let totalAmount = 0;
         const orderItems = [];
 
         for (let item of items) {
-            const { productName, SKU, quantity } = item;
+            const { product, quantity, priceAtPurchase } = item;
 
-            // Find the product by name or SKU
-            let product;
-            if (productName) {
-                product = await Product.findOne({ name: productName });
-            } else if (SKU) {
-                product = await Product.findOne({ SKU: SKU });
+            // Find the product by ID
+            const productRecord = await Product.findById(product);
+            if (!productRecord) {
+                return res.status(404).json({ message: `Product not found: ${product}` });
             }
 
-            if (!product) {
-                return res.status(404).json({ message: `Product not found: ${productName || SKU}` });
-            }
+            const itemTotal = priceAtPurchase * quantity;
+            totalAmount += itemTotal;
 
-            const priceAtPurchase = product.price; // Retrieve the current price of the product
-            const itemTotal = priceAtPurchase * quantity; // Calculate total price for this item
-            totalAmount += itemTotal; // Add to the total amount for the order
-
-            // Add item to orderItems array with the product ID, quantity, and price at purchase
             orderItems.push({
-                product: product._id, // Use product's ObjectId
+                product: productRecord._id,
                 quantity: quantity,
                 priceAtPurchase: priceAtPurchase
             });
         }
 
-        // Create the order with the total amount calculated
         const newOrder = new Order({
             customer: customer._id,
             items: orderItems,
-            totalAmount: totalAmount, // Store the calculated total amount
+            totalAmount: totalAmount,
         });
 
         const savedOrder = await newOrder.save();
         res.status(201).json(savedOrder);
     } catch (err) {
+        console.error('Error:', err.message); // Detailed error message
         res.status(400).json({ message: err.message });
     }
 });
@@ -83,20 +75,18 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-
-// Update an order by ID
 router.put('/:id', async (req, res) => {
     try {
-        const updatedOrder = await Order.findByIdAndUpdate(
-            req.params.id,
-            req.body,
-            { new: true }
-        );
+        const updatedOrder = await Order.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        if (!updatedOrder) {
+            return res.status(404).json({ message: 'Order not found' });
+        }
         res.status(200).json(updatedOrder);
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
 });
+
 
 // Delete an order by ID
 router.delete('/:id', async (req, res) => {

@@ -6,8 +6,8 @@ import axios from 'axios';
 const NewOrder = () => {
     const [order, setOrder] = useState({
         customer: '',
-        products: [],
-        totalPrice: 0,
+        items: [],
+        totalAmount: 0,
     });
     const [customers, setCustomers] = useState([]);
     const [products, setProducts] = useState([]);
@@ -44,19 +44,38 @@ const NewOrder = () => {
 
     const handleAddProduct = () => {
         const product = products.find(p => p._id === selectedProduct);
+        if (!product) return;
+
         const productTotal = product.price * quantity;
-        setOrder(prevOrder => ({
-            ...prevOrder,
-            products: [
-                ...prevOrder.products,
-                {
-                    ...product,
-                    quantity,
-                    totalPrice: productTotal
-                }
-            ],
-            totalPrice: prevOrder.totalPrice + productTotal
-        }));
+
+        // Check if product is already in the order
+        const existingItemIndex = order.items.findIndex(item => item.product._id === product._id);
+        if (existingItemIndex !== -1) {
+            // Update the quantity and total price of the existing item
+            const updatedItems = [...order.items];
+            updatedItems[existingItemIndex].quantity += quantity;
+            updatedItems[existingItemIndex].totalPrice += productTotal;
+            setOrder(prevOrder => ({
+                ...prevOrder,
+                items: updatedItems,
+                totalAmount: prevOrder.totalAmount + productTotal
+            }));
+        } else {
+            // Add a new item
+            setOrder(prevOrder => ({
+                ...prevOrder,
+                items: [
+                    ...prevOrder.items,
+                    {
+                        product: product,
+                        quantity: quantity,
+                        priceAtPurchase: product.price,
+                        totalPrice: productTotal
+                    }
+                ],
+                totalAmount: prevOrder.totalAmount + productTotal
+            }));
+        }
         setSelectedProduct('');
         setQuantity(1);
     };
@@ -64,21 +83,27 @@ const NewOrder = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('/api/orders', order);
+            console.log('Order data being sent:', order); // Debugging line
+            // Change the key from "customer" to "customerName"
+            await axios.post('http://localhost:5000/api/orders', { 
+                customerName: order.customer,
+                items: order.items,
+                totalAmount: order.totalAmount 
+            });
             navigate('/orders');
         } catch (error) {
             console.error('Error creating order:', error);
         }
     };
-
+    
+    
     return (
-        <Box component="form" onSubmit={handleSubmit} sx={{ padding: 1, maxWidth: 600 }}>
+        <Box component="form" onSubmit={handleSubmit} sx={{ padding: 2, maxWidth: 600 }}>
             <FormControl fullWidth margin="normal">
                 <InputLabel>Customer</InputLabel>
                 <Select
                     value={order.customer}
                     onChange={handleCustomerChange}
-                    required
                 >
                     {customers.map(customer => (
                         <MenuItem key={customer._id} value={customer._id}>
@@ -93,7 +118,6 @@ const NewOrder = () => {
                     <Select
                         value={selectedProduct}
                         onChange={(e) => setSelectedProduct(e.target.value)}
-                        required
                     >
                         {products.map(product => (
                             <MenuItem key={product._id} value={product._id}>
@@ -106,7 +130,8 @@ const NewOrder = () => {
                     label="Quantity"
                     type="number"
                     value={quantity}
-                    onChange={(e) => setQuantity(e.target.value)}
+                    onChange={(e) => setQuantity(Number(e.target.value))}
+                    inputProps={{ min: 1 }}
                     sx={{ width: 80 }}
                 />
                 <Button variant="contained" color="primary" onClick={handleAddProduct} sx={{ ml: 2 }}>
@@ -115,13 +140,13 @@ const NewOrder = () => {
             </Box>
             <Typography variant="h6" sx={{ mb: 2 }}>Order Summary</Typography>
             <ul>
-                {order.products.map((product, index) => (
+                {order.items.map((item, index) => (
                     <li key={index}>
-                        {product.name} - {product.quantity} x {product.price} = {product.totalPrice}
+                        {item.product.name} - {item.quantity} x {item.priceAtPurchase} = ${item.totalPrice.toFixed(2)}
                     </li>
                 ))}
             </ul>
-            <Typography variant="h6">Total Price: ${order.totalPrice.toFixed(2)}</Typography>
+            <Typography variant="h6">Total Price: ${order.totalAmount.toFixed(2)}</Typography>
             <Button variant="contained" color="primary" type="submit" sx={{ mt: 2 }}>
                 Create Order
             </Button>
