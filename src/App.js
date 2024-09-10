@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { themeSettings } from "theme";
-import Dashboard from "pages/dashboard";
+import Dashboard from "pages/Dashboard";
 import Layout from "pages/Layout";
 import Products from "pages/Products";
 import NewProduct from "pages/NewProduct";
@@ -15,7 +15,7 @@ import EditCustomer from "pages/EditCustomer";
 import Orders from "pages/Orders";
 import NewOrder from "pages/NewOrder";
 import EditOrder from "pages/EditOrder";
-console.log(EditOrder);
+
 
 
 function App() {

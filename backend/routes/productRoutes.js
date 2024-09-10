@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Product = require('../models/product');
+const Product = require('../models/Product');
 
 // Create a new product
 router.post('/', async (req, res) => {
@@ -138,6 +138,15 @@ router.delete('/:id', async (req, res) => {
         } else {
             res.status(404).json({ message: 'Product not found' });
         }
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+router.get('/alerts/low-stock', async (req, res) => {
+    try {
+        const products = await Product.find({ quantity: { $lt: 10 } }); // Threshold set to 10 for low stock
+        res.status(200).json(products);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }

@@ -78,7 +78,7 @@ const EditCustomer = () => {
             />
             <TextField
                 label="Address"
-                name="address"
+                name="streetAddress"
                 value={customer.streetAddress}
                 onChange={handleChange}
                 fullWidth

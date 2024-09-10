@@ -1,17 +1,23 @@
 const express = require('express');
 const router = express.Router();
 const Order = require('../models/Order');
+const Product = require('../models/Product');
 const Customer = require('../models/Customer');
-const Product = require('../models/product');
+const SalesData = require('../models/SalesData');
 
 // Create a new order using customer name and product name/SKU
 router.post('/', async (req, res) => {
+    const session = await Order.startSession();
+    session.startTransaction();
+
     try {
         const { customerName, items } = req.body;
 
         // Find the customer by ID
         const customer = await Customer.findById(customerName);
         if (!customer) {
+            await session.abortTransaction();
+            session.endSession();
             return res.status(404).json({ message: 'Customer not found' });
         }
 
@@ -24,8 +30,21 @@ router.post('/', async (req, res) => {
             // Find the product by ID
             const productRecord = await Product.findById(product);
             if (!productRecord) {
+                await session.abortTransaction();
+                session.endSession();
                 return res.status(404).json({ message: `Product not found: ${product}` });
             }
+
+            // Check if there is enough quantity
+            if (productRecord.quantity < quantity) {
+                await session.abortTransaction();
+                session.endSession();
+                return res.status(400).json({ message: `Insufficient stock for product: ${productRecord.name}` });
+            }
+
+            // Deduct the quantity from the product's stock
+            productRecord.quantity -= quantity;
+            await productRecord.save({ session });
 
             const itemTotal = priceAtPurchase * quantity;
             totalAmount += itemTotal;
@@ -35,6 +54,25 @@ router.post('/', async (req, res) => {
                 quantity: quantity,
                 priceAtPurchase: priceAtPurchase
             });
+
+            // Update sales data
+            const salesData = await SalesData.findOne({
+                product: productRecord._id,
+                date: new Date().toISOString().split('T')[0] // YYYY-MM-DD format
+            });
+
+            if (salesData) {
+                salesData.totalQuantitySold += quantity;
+                salesData.totalRevenue += itemTotal;
+            } else {
+                const newSalesData = new SalesData({
+                    product: productRecord._id,
+                    date: new Date().toISOString().split('T')[0],
+                    totalQuantitySold: quantity,
+                    totalRevenue: itemTotal
+                });
+                await newSalesData.save({ session });
+            }
         }
 
         const newOrder = new Order({
@@ -43,9 +81,14 @@ router.post('/', async (req, res) => {
             totalAmount: totalAmount,
         });
 
-        const savedOrder = await newOrder.save();
+        const savedOrder = await newOrder.save({ session });
+        await session.commitTransaction();
+        session.endSession();
         res.status(201).json(savedOrder);
+
     } catch (err) {
+        await session.abortTransaction();
+        session.endSession();
         console.error('Error:', err.message); // Detailed error message
         res.status(400).json({ message: err.message });
     }

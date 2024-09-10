@@ -68,7 +68,7 @@ const NewCustomer = () => {
             />
             <TextField
                 label="Address"
-                name="address"
+                name="streetAddress"
                 value={customer.streetAddress}
                 onChange={handleChange}
                 required
