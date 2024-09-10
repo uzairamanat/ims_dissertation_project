@@ -16,32 +16,32 @@ const SalesOverTimeChart = () => {
             id: 'Sales',
             color: tokens.primary[400], // Use primary color from theme
             data: [
-                { x: 'January', y: 1500 },
-                { x: 'February', y: 1800 },
-                { x: 'March', y: 2000 },
-                { x: 'April', y: 2500 },
-                { x: 'May', y: 3000 },
-                { x: 'June', y: 3200 },
-                { x: 'July', y: 2800 },
-                { x: 'August', y: 3500 },
-                { x: 'September', y: 2700 },
-                { x: 'October', y: 4000 },
-                { x: 'November', y: 3800 },
-                { x: 'December', y: 4500 },
+                { x: 'JAN', y: 1500 },
+                { x: 'FEB', y: 1800 },
+                { x: 'MAR', y: 2000 },
+                { x: 'APR', y: 2500 },
+                { x: 'MAY', y: 3000 },
+                { x: 'JUN', y: 3200 },
+                { x: 'JUL', y: 2800 },
+                { x: 'AUG', y: 3500 },
+                { x: 'SEP', y: 2700 },
+                { x: 'OCT', y: 4000 },
+                { x: 'NOV', y: 3800 },
+                { x: 'DEC', y: 4500 },
             ],
         },
     ];
 
     return (
-        <div style={{ height: '50vh', width: '50vw' }}>
+        <div style={{ height: '50vh', width: '40vw' }}>
             <ResponsiveLine
                 data={data}
                 margin={{ top: 10, right: 110, bottom: 50, left: 60 }}
                 xScale={{ type: 'point' }}
                 yScale={{
                     type: 'linear',
-                    min: 'auto',
-                    max: 'auto',
+                    min: '0',
+                    max: '5000',
                     stacked: true,
                     reverse: false,
                 }}
@@ -68,6 +68,7 @@ const SalesOverTimeChart = () => {
                     legendPosition: 'middle',
                     tickColor: tokens.grey[100], // Use theme color for ticks
                     legendTextColor: tokens.grey[100], // Use theme color for legend text
+                    tickValues: [0, 1000, 2000, 3000, 4000, 5000],
                 }}
                 colors={{ scheme: mode === "dark" ? "nivo" : "set1" }} // Dynamic color scheme based on mode
                 pointSize={10}
@@ -77,7 +78,7 @@ const SalesOverTimeChart = () => {
                 pointLabelYOffset={-12}
                 enableGridX={false}
                 enableGridY={true}
-                gridYValues={5}
+                gridYValues={[0, 1000, 2000, 3000, 4000, 5000]}
                 useMesh={true}
                 theme={{
                     axis: {
@@ -115,36 +116,11 @@ const SalesOverTimeChart = () => {
                     tooltip: {
                         container: {
                             background: tokens.primary[700], // Tooltip background in dark mode
-                            color: tokens.grey[50], // Tooltip text color in dark mode
+                            color: tokens.grey[50], 
                         },
                     },
                 }}
-                legends={[
-                    {
-                        anchor: 'bottom-right',
-                        direction: 'column',
-                        justify: false,
-                        translateX: 100,
-                        translateY: 0,
-                        itemsSpacing: 0,
-                        itemDirection: 'left-to-right',
-                        itemWidth: 80,
-                        itemHeight: 20,
-                        itemOpacity: 0.75,
-                        symbolSize: 12,
-                        symbolShape: 'circle',
-                        symbolBorderColor: 'rgba(0, 0, 0, .5)',
-                        effects: [
-                            {
-                                on: 'hover',
-                                style: {
-                                    itemBackground: 'rgba(0, 0, 0, .03)',
-                                    itemOpacity: 1,
-                                },
-                            },
-                        ],
-                    },
-                ]}
+                legends={[]}
                 tooltip={({ point }) => (
                     <div
                         style={{

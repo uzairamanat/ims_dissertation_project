@@ -16,10 +16,10 @@ const SalesByCategoryChart = () => {
     const totalSales = data.reduce((acc, category) => acc + category.value, 0);
 
     return (
-        <div style={{ height: '40vh', width: '40vw', position: 'relative' }}>
+        <div style={{ height: '40vh', width: '31vw', position: 'relative'}}>
             <ResponsivePie
                 data={data}
-                margin={{ top: 20, right: 0, bottom: 30, left: 0 }}
+                margin={{ top: 30, right: 0, bottom: 30, left: 0 }}
                 innerRadius={0.5}
                 padAngle={0.7}
                 cornerRadius={3}
@@ -44,6 +44,9 @@ const SalesByCategoryChart = () => {
                 fill={[]}
                 legends={[]}
                 tooltip={() => null}
+                animate={true}
+                motionStiffness={90}
+                motionDamping={15}
             />
 
             {/* Centered Total Sales Text */}
