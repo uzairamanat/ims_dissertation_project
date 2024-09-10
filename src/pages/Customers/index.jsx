@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
     Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, 
     Button, IconButton, Paper, TextField, MenuItem, Select, FormControl, 
-    InputLabel
+    InputLabel, Pagination
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -14,6 +14,9 @@ const Customers = () => {
     const [customers, setCustomers] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [cityFilter, setCityFilter] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 8;  // Maximum of 8 items per page
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -52,6 +55,15 @@ const Customers = () => {
 
     // Get unique cities from the customers data
     const uniqueCities = [...new Set(customers.map(customer => customer.city))];
+
+    const indexOfLastCustomer = currentPage * itemsPerPage;
+    const indexOfFirstCustomer = indexOfLastCustomer - itemsPerPage;
+    const currentCustomers = filteredCustomers.slice(indexOfFirstCustomer, indexOfLastCustomer);
+    const totalPages = Math.ceil(filteredCustomers.length / itemsPerPage);
+
+    const handlePageChange = (event, value) => {
+        setCurrentPage(value);
+    };
 
     return (
         <Box sx={{ ml: 1 }}>
@@ -98,7 +110,7 @@ const Customers = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {filteredCustomers.map((customer) => (
+                        {currentCustomers.map((customer) => (
                             <TableRow key={customer._id}>
                                 <TableCell>{customer.name}</TableCell>
                                 <TableCell>{customer.email}</TableCell>
@@ -118,6 +130,14 @@ const Customers = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+                <Pagination
+                    count={totalPages}
+                    page={currentPage}
+                    onChange={handlePageChange}
+                    color="primary"
+                />
+            </Box>
         </Box>
     );
 };

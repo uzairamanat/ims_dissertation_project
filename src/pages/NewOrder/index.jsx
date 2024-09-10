@@ -83,8 +83,7 @@ const NewOrder = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            console.log('Order data being sent:', order); // Debugging line
-            // Change the key from "customer" to "customerName"
+            console.log('Order data being sent:', order); // Add this line to see the payload
             await axios.post('http://localhost:5000/api/orders', { 
                 customerName: order.customer,
                 items: order.items,
@@ -92,9 +91,10 @@ const NewOrder = () => {
             });
             navigate('/orders');
         } catch (error) {
-            console.error('Error creating order:', error);
+            console.error('Error creating order:', error.response ? error.response.data : error);
         }
     };
+    
     
     
     return (

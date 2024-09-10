@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
     Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, 
     Button, IconButton, Paper, TextField, MenuItem, Select, FormControl, 
-    InputLabel, Slider, Typography
+    InputLabel, Slider, Typography, Pagination
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -15,7 +15,9 @@ const Products = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [categoryFilter, setCategoryFilter] = useState('');
     const [brandFilter, setBrandFilter] = useState('');
-    const [priceRange, setPriceRange] = useState([0, 100]);  // Default price range (0 to 100)
+    const [priceRange, setPriceRange] = useState([0, 100]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 8;
 
     const navigate = useNavigate();
 
@@ -38,7 +40,7 @@ const Products = () => {
 
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`/api/products/${id}`);
+            await axios.delete(`http://localhost:5000/api/products/${id}`);
             setProducts(products.filter(product => product._id !== id));
         } catch (error) {
             console.error('Error deleting product:', error);
@@ -58,6 +60,15 @@ const Products = () => {
             product.price >= priceRange[0] && product.price <= priceRange[1]
         );
     });
+
+    const indexOfLastProduct = currentPage * itemsPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
+    const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+    const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+
+    const handlePageChange = (event, value) => {
+        setCurrentPage(value);
+    };
 
     return (
         <Box sx={{ml: 1}}>
@@ -98,7 +109,6 @@ const Products = () => {
                             label="Brand"
                         >
                             <MenuItem value="">All Brands</MenuItem>
-                            {/* Add your brand options here */}
                             <MenuItem value="King Of Rice">King Of Rice</MenuItem>
                             <MenuItem value="Pepsi">Pepsi</MenuItem>
                             <MenuItem value="King Of Spice">King Of Spice</MenuItem>
@@ -137,7 +147,7 @@ const Products = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {filteredProducts.map((product) => (
+                        {currentProducts.map((product) => (
                             <TableRow key={product._id}>
                                 <TableCell>{product.brand}</TableCell>
                                 <TableCell>{product.name}</TableCell>
@@ -160,6 +170,14 @@ const Products = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+                <Pagination
+                    count={totalPages}
+                    page={currentPage}
+                    onChange={handlePageChange}
+                    color="primary"
+                />
+            </Box>
         </Box>
     );
 };

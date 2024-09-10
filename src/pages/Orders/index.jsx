@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
     Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, 
-    Button, IconButton, Paper, TextField
+    Button, IconButton, Paper, TextField, Pagination
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -13,14 +13,16 @@ import 'jspdf-autotable';
 
 const Orders = () => {
     const [orders, setOrders] = useState([]);
-    const [searchTerm, setSearchTerm] = useState(''); // State for search term
+    const [searchTerm, setSearchTerm] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 8;  // Maximum of 8 items per page
+
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchOrders = async () => {
             try {
                 const response = await axios.get('http://localhost:5000/api/orders');
-                console.log('Fetched Orders:', response.data);
                 setOrders(response.data);
             } catch (error) {
                 console.error('Error fetching orders:', error);
@@ -81,29 +83,42 @@ const Orders = () => {
         }
     };
 
-    // Filter orders based on the search term
     const filteredOrders = orders.filter(order => 
         order.customer.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
+
+    const indexOfLastOrder = currentPage * itemsPerPage;
+    const indexOfFirstOrder = indexOfLastOrder - itemsPerPage;
+    const currentOrders = filteredOrders.slice(indexOfFirstOrder, indexOfLastOrder);
+    const totalPages = Math.ceil(filteredOrders.length / itemsPerPage);
+
+    const handlePageChange = (event, value) => {
+        setCurrentPage(value);
+    };
+
+    const formatDate = (dateString) => {
+        const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+        return new Intl.DateTimeFormat('en-GB', options).format(new Date(dateString));
+    };
 
     return (
         <Box sx={{ ml: 1 }}>
             <Header title="ORDERS" subtitle="All current orders in the system." />
 
-            {/* Search Bar */}
-            <TextField
-                label="Search by Customer Name"
-                variant="outlined"
-                size="small"
-                fullWidth
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                sx={{ mb: 2, mt: 1 }}
-            />
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                <Button variant="contained" color="primary" onClick={() => navigate('/orders/new')}>
+                    New Order
+                </Button>
 
-            <Button variant="contained" color="primary" onClick={() => navigate('/orders/new')}>
-                New Order
-            </Button>
+                <TextField
+                    label="Search..."
+                    variant="outlined"
+                    size="small"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    sx={{ width: '200px', mr: 1}} 
+                />
+            </Box>
 
             <TableContainer component={Paper} sx={{ maxHeight: 500, backgroundColor: 'transparent', mt: 2 }}>
                 <Table size="small" stickyHeader>
@@ -116,11 +131,11 @@ const Orders = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {filteredOrders.map((order) => (
+                        {currentOrders.map((order) => (
                             <TableRow key={order._id}>
                                 <TableCell>{order._id}</TableCell>
                                 <TableCell>{order.customer.name}</TableCell>
-                                <TableCell>{new Date(order.date).toLocaleDateString()}</TableCell>
+                                <TableCell>{formatDate(order.date)}</TableCell>
                                 <TableCell>
                                     <IconButton onClick={() => handleEdit(order._id)} size="small">
                                         <EditIcon />
@@ -137,6 +152,14 @@ const Orders = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+                <Pagination
+                    count={totalPages}
+                    page={currentPage}
+                    onChange={handlePageChange}
+                    color="primary"
+                />
+            </Box>
         </Box>
     );
 };
