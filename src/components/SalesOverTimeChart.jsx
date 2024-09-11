@@ -63,7 +63,7 @@ const SalesOverTimeChart = () => {
                     tickSize: 5,
                     tickPadding: 5,
                     tickRotation: 0,
-                    legend: 'Sales ($)',
+                    legend: 'Sales (£)',
                     legendOffset: -50,
                     legendPosition: 'middle',
                     tickColor: tokens.grey[100], // Use theme color for ticks
@@ -131,7 +131,7 @@ const SalesOverTimeChart = () => {
                         }}
                     >
                         <strong>Month:</strong> {point.data.xFormatted}<br />
-                        <strong>Sales:</strong> ${point.data.yFormatted}
+                        <strong>Sales:</strong> £{point.data.yFormatted}
                     </div>
                 )}
             />
