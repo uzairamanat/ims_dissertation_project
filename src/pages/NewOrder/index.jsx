@@ -17,8 +17,19 @@ const NewOrder = () => {
 
     useEffect(() => {
         const fetchCustomers = async () => {
+            const token = localStorage.getItem('token'); // Get JWT token from localStorage
+
+            if (!token) {
+                // If token is missing, redirect to login
+                navigate('/login');
+                return;
+            }
             try {
-                const response = await axios.get('http://localhost:5000/api/customers');
+                const response = await axios.get('http://localhost:5000/api/customers', {
+                    headers: {
+                        'x-auth-token': token,
+                    },
+                });
                 setCustomers(response.data);
             } catch (error) {
                 console.error('Error fetching customers:', error);
@@ -26,8 +37,19 @@ const NewOrder = () => {
         };
 
         const fetchProducts = async () => {
+            const token = localStorage.getItem('token'); // Get JWT token from localStorage
+
+            if (!token) {
+                // If token is missing, redirect to login
+                navigate('/login');
+                return;
+            }
             try {
-                const response = await axios.get('http://localhost:5000/api/products');
+                const response = await axios.get('http://localhost:5000/api/products', {
+                    headers: {
+                        'x-auth-token': token,
+                    },
+                });
                 setProducts(response.data);
             } catch (error) {
                 console.error('Error fetching products:', error);
@@ -37,6 +59,7 @@ const NewOrder = () => {
         fetchCustomers();
         fetchProducts();
     }, []);
+
 
     const handleCustomerChange = (e) => {
         setOrder({ ...order, customer: e.target.value });
@@ -82,20 +105,32 @@ const NewOrder = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const token = localStorage.getItem('token'); // Get JWT token from localStorage
+
+        if (!token) {
+            // If token is missing, redirect to login
+            navigate('/login');
+            return;
+        }
         try {
-            console.log('Order data being sent:', order); // Add this line to see the payload
-            await axios.post('http://localhost:5000/api/orders', { 
-                customerName: order.customer,
-                items: order.items,
-                totalAmount: order.totalAmount 
-            });
+            await axios.post(
+                'http://localhost:5000/api/orders',
+                {
+                    customerName: order.customer,
+                    items: order.items,
+                    totalAmount: order.totalAmount,
+                },
+                {
+                    headers: {
+                        'x-auth-token': token,
+                    },
+                }
+            );
             navigate('/orders');
         } catch (error) {
             console.error('Error creating order:', error.response ? error.response.data : error);
         }
     };
-    
-    
     
     return (
         <Box component="form" onSubmit={handleSubmit} sx={{ padding: 2, maxWidth: 600 }}>

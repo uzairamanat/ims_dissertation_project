@@ -23,14 +23,22 @@ const Products = () => {
 
     useEffect(() => {
         const fetchProducts = async () => {
+            const token = localStorage.getItem('token'); // Get JWT token from localStorage
+
+            if (!token) {
+                // If token is missing, redirect to login
+                navigate('/login');
+                return;
+            }
             try {
-                const response = await axios.get('http://localhost:5000/api/products');
+                const response = await axios.get('http://localhost:5000/api/products', {
+                    headers: { 'x-auth-token': token }
+                });
                 setProducts(response.data);
             } catch (error) {
                 console.error('Error fetching products:', error);
             }
         };
-
         fetchProducts();
     }, []);
 
@@ -39,8 +47,17 @@ const Products = () => {
     };
 
     const handleDelete = async (id) => {
+        const token = localStorage.getItem('token'); // Get JWT token from localStorage
+
+        if (!token) {
+            // If token is missing, redirect to login
+            navigate('/login');
+            return;
+        }
         try {
-            await axios.delete(`http://localhost:5000/api/products/${id}`);
+            await axios.delete(`http://localhost:5000/api/products/${id}`, {
+                headers: { 'x-auth-token': token }
+            });
             setProducts(products.filter(product => product._id !== id));
         } catch (error) {
             console.error('Error deleting product:', error);

@@ -4,9 +4,10 @@ const Order = require('../models/Order');
 const Product = require('../models/Product');
 const Customer = require('../models/Customer');
 const SalesData = require('../models/SalesData');
+const auth = require('../middleware/auth');
 
 // Create a new order using customer name and product name/SKU
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
     const session = await Order.startSession();
     session.startTransaction();
 
@@ -95,7 +96,7 @@ router.post('/', async (req, res) => {
 });
 
 // Get all orders
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
     try {
         const orders = await Order.find().populate('customer').populate('items.product');
         res.status(200).json(orders);
@@ -105,7 +106,7 @@ router.get('/', async (req, res) => {
 });
 
 // Get a specific order by ID
-router.get('/:id', async (req, res) => {
+router.get('/:id', auth, async (req, res) => {
     try {
         const order = await Order.findById(req.params.id).populate('customer').populate('items.product');
         if (order) {
@@ -118,7 +119,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', auth, async (req, res) => {
     try {
         const updatedOrder = await Order.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (!updatedOrder) {
@@ -132,7 +133,7 @@ router.put('/:id', async (req, res) => {
 
 
 // Delete an order by ID
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
     try {
         const deletedOrder = await Order.findByIdAndDelete(req.params.id);
         if (deletedOrder) {

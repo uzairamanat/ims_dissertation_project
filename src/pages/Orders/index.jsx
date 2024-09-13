@@ -21,14 +21,22 @@ const Orders = () => {
 
     useEffect(() => {
         const fetchOrders = async () => {
+            const token = localStorage.getItem('token'); // Get JWT token from localStorage
+
+            if (!token) {
+                // If token is missing, redirect to login
+                navigate('/login');
+                return;
+            }
             try {
-                const response = await axios.get('http://localhost:5000/api/orders');
+                const response = await axios.get('http://localhost:5000/api/orders', {
+                    headers: { 'x-auth-token': token }
+                });
                 setOrders(response.data);
             } catch (error) {
                 console.error('Error fetching orders:', error);
             }
         };
-
         fetchOrders();
     }, []);
 
@@ -37,17 +45,37 @@ const Orders = () => {
     };
 
     const handleDelete = async (id) => {
+        const token = localStorage.getItem('token'); // Get JWT token from localStorage
+
+        if (!token) {
+            // If token is missing, redirect to login
+            navigate('/login');
+            return;
+        }
+        
         try {
-            await axios.delete(`http://localhost:5000/api/orders/${id}`);
+            await axios.delete(`http://localhost:5000/api/orders/${id}`, {
+                headers: { 'x-auth-token': token }
+            });
             setOrders(orders.filter(order => order._id !== id));
         } catch (error) {
             console.error('Error deleting order:', error);
         }
     };
-
+    
     const handleExport = async (orderId) => {
+        const token = localStorage.getItem('token'); // Get JWT token from localStorage
+
+        if (!token) {
+            // If token is missing, redirect to login
+            navigate('/login');
+            return;
+        }
+
         try {
-            const response = await axios.get(`http://localhost:5000/api/orders/${orderId}`);
+            const response = await axios.get(`http://localhost:5000/api/orders/${orderId}`, {
+                headers: { 'x-auth-token': token }
+            });
             const order = response.data;
 
             const doc = new jsPDF();

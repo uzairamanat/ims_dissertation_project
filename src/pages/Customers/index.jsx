@@ -21,14 +21,22 @@ const Customers = () => {
 
     useEffect(() => {
         const fetchCustomers = async () => {
-            try {
-                const response = await axios.get('http://localhost:5000/api/customers');
+            const token = localStorage.getItem('token'); // Get JWT token from localStorage
+
+            if (!token) {
+                // If token is missing, redirect to login
+                navigate('/login');
+                return;
+            }
+            try {                
+                const response = await axios.get('http://localhost:5000/api/customers', {
+                    headers: { 'x-auth-token': token }
+                });
                 setCustomers(response.data);
             } catch (error) {
                 console.error('Error fetching customers:', error);
             }
         };
-
         fetchCustomers();
     }, []);
 
@@ -37,8 +45,18 @@ const Customers = () => {
     };
 
     const handleDelete = async (id) => {
-        try {
-            await axios.delete(`/api/customers/${id}`);
+        const token = localStorage.getItem('token'); // Get JWT token from localStorage
+
+        if (!token) {
+            // If token is missing, redirect to login
+            navigate('/login');
+            return;
+        }
+
+        try {            
+            await axios.delete(`http://localhost:5000/api/customers/${id}`, {
+                headers: { 'x-auth-token': token }
+            });
             setCustomers(customers.filter(customer => customer._id !== id));
         } catch (error) {
             console.error('Error deleting customer:', error);

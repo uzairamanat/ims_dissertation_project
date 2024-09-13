@@ -1,32 +1,45 @@
 import React, { useState, useEffect } from "react";
 import { Box, Typography, CircularProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
+import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
+import axios from "axios";
 
 const LowStockAlert = () => {
     const [lowStockProducts, setLowStockProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const navigate = useNavigate(); // Hook to navigate between routes
 
     // Fetch low-stock products
     useEffect(() => {
         const fetchLowStockProducts = async () => {
-            try {
-                const response = await fetch('http://localhost:5000/api/products/alerts/low-stock');
-                const data = await response.json();
-                
-                if (!response.ok) {
-                    throw new Error(data.message || 'Error fetching low-stock products');
-                }
+            const token = localStorage.getItem('token'); // Get JWT token from localStorage
 
-                setLowStockProducts(data);
+            if (!token) {
+                // If token is missing, redirect to login
+                navigate('/login');
+                return;
+            }
+
+            try {
+                const response = await axios.get('http://localhost:5000/api/products/alerts/low-stock', {
+                    headers: { 'x-auth-token': token } // Pass the token in the headers
+                });
+
+                setLowStockProducts(response.data);
                 setLoading(false);
-            } catch (err) {
-                setError(err.message);
+            } catch (error) {
                 setLoading(false);
+                if (error.response && error.response.status === 401) {
+                    // If unauthorized, redirect to login
+                    navigate('/login');
+                } else {
+                    setError(error.message || 'Error fetching low-stock products');
+                }
             }
         };
 
         fetchLowStockProducts();
-    }, []);
+    }, [navigate]);
 
     if (loading) return <CircularProgress />;
     if (error) return <Typography color="error">{error}</Typography>;

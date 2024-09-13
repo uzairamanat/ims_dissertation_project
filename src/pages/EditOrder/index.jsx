@@ -18,32 +18,67 @@ const EditOrder = () => {
 
     useEffect(() => {
         const fetchOrder = async () => {
+            const token = localStorage.getItem('token'); // Get JWT token from localStorage
+
+            if (!token) {
+                // If token is missing, redirect to login
+                navigate('/login');
+                return;
+            }
             try {
-                const response = await axios.get(`http://localhost:5000/api/orders/${id}`);
+                const response = await axios.get(`http://localhost:5000/api/orders/${id}`, {
+                    headers: {
+                        'x-auth-token': token,
+                    },
+                });
                 setOrder(response.data);
             } catch (error) {
                 console.error('Error fetching order:', error);
             }
         };
-    
+
         const fetchCustomers = async () => {
+            const token = localStorage.getItem('token'); // Get JWT token from localStorage
+
+            if (!token) {
+                // If token is missing, redirect to login
+                navigate('/login');
+                return;
+            }
+
             try {
-                const response = await axios.get('http://localhost:5000/api/customers');
+                const response = await axios.get('http://localhost:5000/api/customers', {
+                    headers: {
+                        'x-auth-token': token,
+                    },
+                });
                 setCustomers(response.data);
             } catch (error) {
                 console.error('Error fetching customers:', error);
             }
         };
-    
+
         const fetchProducts = async () => {
+            const token = localStorage.getItem('token'); // Get JWT token from localStorage
+
+            if (!token) {
+                // If token is missing, redirect to login
+                navigate('/login');
+                return;
+            }
+
             try {
-                const response = await axios.get('http://localhost:5000/api/products');
+                const response = await axios.get('http://localhost:5000/api/products', {
+                    headers: {
+                        'x-auth-token': token,
+                    },
+                });
                 setProducts(response.data);
             } catch (error) {
                 console.error('Error fetching products:', error);
             }
         };
-    
+
         fetchOrder();
         fetchCustomers();
         fetchProducts();
@@ -103,8 +138,19 @@ const EditOrder = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const token = localStorage.getItem('token'); // Get JWT token from localStorage
+
+        if (!token) {
+            // If token is missing, redirect to login
+            navigate('/login');
+            return;
+        }
         try {
-            await axios.put(`http://localhost:5000/api/orders/${id}`, order);
+            await axios.put(`http://localhost:5000/api/orders/${id}`, order, {
+                headers: {
+                    'x-auth-token': token,
+                },
+            });
             navigate('/orders');
         } catch (error) {
             console.error('Error updating order:', error);

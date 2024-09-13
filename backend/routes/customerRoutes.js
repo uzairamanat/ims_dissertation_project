@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const auth = require('../middleware/auth');
 const Customer = require('../models/Customer');
 
 // Create a new customer
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
     try {
         const newCustomer = new Customer(req.body);
         const savedCustomer = await newCustomer.save();
@@ -14,7 +15,7 @@ router.post('/', async (req, res) => {
 });
 
 // Get all customers
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
     try {
         const customers = await Customer.find();
         res.status(200).json(customers);
@@ -24,7 +25,7 @@ router.get('/', async (req, res) => {
 });
 
 // Search customers by name
-router.get('/search', async (req, res) => {
+router.get('/search', auth, async (req, res) => {
     try {
         const { name } = req.query;
         if (!name) {
@@ -39,7 +40,7 @@ router.get('/search', async (req, res) => {
 });
 
 // Search customers by city
-router.get('/city', async (req, res) => {
+router.get('/city', auth, async (req, res) => {
     try {
         const { city } = req.query;
         if (!city) {
@@ -54,7 +55,7 @@ router.get('/city', async (req, res) => {
 });
 
 // Get a specific customer by ID
-router.get('/:id', async (req, res) => {
+router.get('/:id', auth, async (req, res) => {
     try {
         const customer = await Customer.findById(req.params.id);
         if (customer) {
@@ -68,7 +69,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // Update a customer by ID
-router.put('/:id', async (req, res) => {
+router.put('/:id', auth, async (req, res) => {
     try {
         const updatedCustomer = await Customer.findByIdAndUpdate(
             req.params.id,
@@ -82,7 +83,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // Delete a customer by ID
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
     try {
         const deletedCustomer = await Customer.findByIdAndDelete(req.params.id);
         if (deletedCustomer) {

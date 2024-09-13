@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const Product = require('../models/Product');
+const auth = require('../middleware/auth');
 
 // Create a new product
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
     try {
         const newItem = new Product(req.body);
         const savedItem = await newItem.save();
@@ -14,7 +15,7 @@ router.post('/', async (req, res) => {
 });
 
 // Get all products
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
     try {
         const items = await Product.find();
         res.status(200).json(items);
@@ -24,7 +25,7 @@ router.get('/', async (req, res) => {
 });
 
 // Get a specific product by ID
-router.get('/:id', async (req, res) => {
+router.get('/:id', auth, async (req, res) => {
     try {
         const item = await Product.findById(req.params.id);
         if (item) {
@@ -38,7 +39,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // Search products by name
-router.get('/search', async (req, res) => {
+router.get('/search', auth, async (req, res) => {
     try {
         const { name } = req.query;
         if (!name) {
@@ -53,7 +54,7 @@ router.get('/search', async (req, res) => {
 });
 
 // Search products by category and/or price
-router.get('/filter', async (req, res) => {
+router.get('/filter', auth, async (req, res) => {
     try {
         const { category, minPrice, maxPrice } = req.query;
 
@@ -82,7 +83,7 @@ router.get('/filter', async (req, res) => {
 });
 
 // Search products by brand
-router.get('/brand', async (req, res) => {
+router.get('/brand', auth, async (req, res) => {
     try {
         const { brand } = req.query;
         if (!brand) {
@@ -97,7 +98,7 @@ router.get('/brand', async (req, res) => {
 });
 
 // Search products by SKU
-router.get('/sku', async (req, res) => {
+router.get('/sku', auth, async (req, res) => {
     try {
         const { SKU } = req.query;
         if (!SKU) {
@@ -116,7 +117,7 @@ router.get('/sku', async (req, res) => {
 });
 
 // Update a product by ID
-router.put('/:id', async (req, res) => {
+router.put('/:id', auth, async (req, res) => {
     try {
         const updatedItem = await Product.findByIdAndUpdate(
             req.params.id,
@@ -130,7 +131,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // Delete a product by ID
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
     try {
         const deletedItem = await Product.findByIdAndDelete(req.params.id);
         if (deletedItem) {
@@ -143,7 +144,7 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
-router.get('/alerts/low-stock', async (req, res) => {
+router.get('/alerts/low-stock', auth, async (req, res) => {
     try {
         const products = await Product.find({ quantity: { $lt: 10 } }); // Threshold set to 10 for low stock
         res.status(200).json(products);

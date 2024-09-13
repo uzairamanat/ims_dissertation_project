@@ -20,8 +20,20 @@ const NewCustomer = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const token = localStorage.getItem('token'); // Get JWT token from localStorage
+
+        if (!token) {
+            // If token is missing, redirect to login
+            navigate('/login');
+            return;
+        }
+
         try {
-            await axios.post('http://localhost:5000/api/customers', customer);
+            await axios.post('http://localhost:5000/api/customers', customer, {
+                headers: {
+                    'x-auth-token': token // Add the token to the request header
+                }
+            });
             navigate('/customers');
         } catch (error) {
             console.error('Error creating customer:', error);

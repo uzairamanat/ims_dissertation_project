@@ -6,29 +6,50 @@ import DashboardCard from "components/DashboardCard";
 import axios from "axios";
 import Header from "components/Header";
 import { Box, Grid } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
     const [productCount, setProductCount] = useState(0);
     const [customerCount, setCustomerCount] = useState(0);
     const [orderCount, setOrderCount] = useState(0);
+    const navigate = useNavigate();  // Hook to navigate between routes
 
     useEffect(() => {
         const fetchCounts = async () => {
+            const token = localStorage.getItem('token');  // Get JWT token from localStorage
+
+            if (!token) {
+                // If token is missing, redirect to login
+                navigate('/login');
+                return;
+            }
+
             try {
-                const productResponse = await axios.get('http://localhost:5000/api/products');
-                const customerResponse = await axios.get('http://localhost:5000/api/customers');
-                const orderResponse = await axios.get('http://localhost:5000/api/orders');
+                const productResponse = await axios.get('http://localhost:5000/api/products', {
+                    headers: { 'x-auth-token': token }  // Pass the token in the header
+                });
+                const customerResponse = await axios.get('http://localhost:5000/api/customers', {
+                    headers: { 'x-auth-token': token }  // Pass the token in the header
+                });
+                const orderResponse = await axios.get('http://localhost:5000/api/orders', {
+                    headers: { 'x-auth-token': token }  // Pass the token in the header
+                });
 
                 setProductCount(productResponse.data.length);
                 setCustomerCount(customerResponse.data.length);
                 setOrderCount(orderResponse.data.length);
             } catch (error) {
-                console.error('Error fetching data:', error);
+                if (error.response && error.response.status === 401) {
+                    // If unauthorized, redirect to login page
+                    navigate('/login');
+                } else {
+                    console.error('Error fetching data:', error);
+                }
             }
         };
 
         fetchCounts();
-    }, []);
+    }, [navigate]);
 
     return (
         <Box sx={{ ml: 1, mt: 2 }}>
@@ -43,7 +64,7 @@ const Dashboard = () => {
                 </Grid>
 
                 {/* Cards splitting the remaining half */}
-                <Grid item xs={12} md={5} sx={{ml:2}}>
+                <Grid item xs={12} md={5} sx={{ ml: 2 }}>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={4}>
                             <DashboardCard title="Products" number={productCount} color="#1e88e5" />
