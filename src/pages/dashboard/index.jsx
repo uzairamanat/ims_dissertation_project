@@ -92,7 +92,7 @@ const Dashboard = () => {
                 {/* Sales Over Time Chart */}
                 <Grid item xs={12} md={6}>
                     <Box>
-                        <h2>Sales Over Time</h2>
+                        <h2>Sales This Year</h2>
                         <SalesOverTimeChart />
                     </Box>
                 </Grid>

@@ -24,35 +24,7 @@ router.get('/', auth, async (req, res) => {
     }
 });
 
-// Search customers by name
-router.get('/search', auth, async (req, res) => {
-    try {
-        const { name } = req.query;
-        if (!name) {
-            return res.status(400).json({ message: 'Name query parameter is required' });
-        }
 
-        const customers = await Customer.find({ name: { $regex: name, $options: 'i' } });
-        res.status(200).json(customers);
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
-});
-
-// Search customers by city
-router.get('/city', auth, async (req, res) => {
-    try {
-        const { city } = req.query;
-        if (!city) {
-            return res.status(400).json({ message: 'City query parameter is required' });
-        }
-
-        const customers = await Customer.find({ city: { $regex: city, $options: 'i' } });
-        res.status(200).json(customers);
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
-});
 
 // Get a specific customer by ID
 router.get('/:id', auth, async (req, res) => {

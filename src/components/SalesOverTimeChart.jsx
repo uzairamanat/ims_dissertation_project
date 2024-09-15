@@ -1,7 +1,7 @@
 import React from 'react';
 import { ResponsiveLine } from '@nivo/line';
-import { useTheme } from '@mui/material/styles'; // To access the theme
-import { tokensDark, tokensLight } from '../theme'; // Import your tokens
+import { useTheme } from '@mui/material/styles'; 
+import { tokensDark, tokensLight } from '../theme'; 
 
 const SalesOverTimeChart = () => {
     const theme = useTheme();
@@ -66,8 +66,8 @@ const SalesOverTimeChart = () => {
                     legend: 'Sales (£)',
                     legendOffset: -50,
                     legendPosition: 'middle',
-                    tickColor: tokens.grey[100], // Use theme color for ticks
-                    legendTextColor: tokens.grey[100], // Use theme color for legend text
+                    tickColor: tokens.grey[100], 
+                    legendTextColor: tokens.grey[100], 
                     tickValues: [0, 1000, 2000, 3000, 4000, 5000],
                 }}
                 colors={{ scheme: mode === "dark" ? "nivo" : "set1" }} // Dynamic color scheme based on mode
@@ -108,14 +108,14 @@ const SalesOverTimeChart = () => {
                     },
                     crosshair: {
                         line: {
-                            stroke: tokens.grey[300], // Crosshair color
+                            stroke: tokens.grey[300], 
                             strokeWidth: 1,
                             strokeOpacity: 0.75,
                         },
                     },
                     tooltip: {
                         container: {
-                            background: tokens.primary[700], // Tooltip background in dark mode
+                            background: tokens.primary[700], 
                             color: tokens.grey[50], 
                         },
                     },
@@ -134,6 +134,8 @@ const SalesOverTimeChart = () => {
                         <strong>Sales:</strong> £{point.data.yFormatted}
                     </div>
                 )}
+                animate="true"
+                motionConfig="default"
             />
         </div>
     );

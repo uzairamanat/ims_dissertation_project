@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button, TextField, MenuItem } from '@mui/material';
+import { Box, Button, TextField, MenuItem, Alert, Snackbar } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -16,6 +16,8 @@ const NewProduct = () => {
         unitMeasurement: 'grams',
         category: ''
     });
+    const [successMessage, setSuccessMessage] = useState(''); // State for success message
+    const [showSnackbar, setShowSnackbar] = useState(false); // State to control Snackbar visibility
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -36,7 +38,14 @@ const NewProduct = () => {
             await axios.post('http://localhost:5000/api/products', product, {
                 headers: {'x-auth-token': token}
             });
-            navigate('/products');
+            // Show success message and Snackbar
+            setSuccessMessage('Product created successfully!');
+            setShowSnackbar(true); // Show Snackbar
+
+            // Set a timeout to navigate to the customers page after showing the notification
+            setTimeout(() => {
+                navigate('/products'); // Navigate to the customers list page
+            }, 2000); // 2-second delay before navigating
         } catch (error) {
             console.error('Error creating product:', error);
         }
@@ -134,6 +143,18 @@ const NewProduct = () => {
             <Button variant="contained" color="primary" type="submit">
                 Create Product
             </Button>
+
+            {/* Snackbar for success notification */}
+            <Snackbar
+                open={showSnackbar}
+                autoHideDuration={6000} // 6 seconds
+                onClose={() => setShowSnackbar(false)} // Close after auto-hide or manually
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+            >
+                <Alert onClose={() => setShowSnackbar(false)} severity="success" sx={{ width: '100%' }}>
+                    {successMessage}
+                </Alert>
+            </Snackbar>
         </Box>
     );
 };

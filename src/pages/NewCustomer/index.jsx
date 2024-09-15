@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button, TextField } from '@mui/material';
+import { Box, Button, TextField, Snackbar, Alert } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -11,6 +11,8 @@ const NewCustomer = () => {
         city: '',
         streetAddress: ''
     });
+    const [successMessage, setSuccessMessage] = useState(''); // State for success message
+    const [showSnackbar, setShowSnackbar] = useState(false); // State to control Snackbar visibility
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -23,8 +25,7 @@ const NewCustomer = () => {
         const token = localStorage.getItem('token'); // Get JWT token from localStorage
 
         if (!token) {
-            // If token is missing, redirect to login
-            navigate('/login');
+            navigate('/login'); // If token is missing, redirect to login
             return;
         }
 
@@ -34,7 +35,24 @@ const NewCustomer = () => {
                     'x-auth-token': token // Add the token to the request header
                 }
             });
-            navigate('/customers');
+
+            // Show success message and Snackbar
+            setSuccessMessage('Customer created successfully!');
+            setShowSnackbar(true); // Show Snackbar
+
+            // Set a timeout to navigate to the customers page after showing the notification
+            setTimeout(() => {
+                navigate('/customers'); // Navigate to the customers list page
+            }, 2000); // 2-second delay before navigating
+
+            // Optionally reset the form after submission
+            setCustomer({
+                name: '',
+                email: '',
+                phone: '',
+                city: '',
+                streetAddress: ''
+            });
         } catch (error) {
             console.error('Error creating customer:', error);
         }
@@ -90,6 +108,18 @@ const NewCustomer = () => {
             <Button variant="contained" color="primary" type="submit">
                 Create Customer
             </Button>
+
+            {/* Snackbar for success notification */}
+            <Snackbar
+                open={showSnackbar}
+                autoHideDuration={6000} // 6 seconds
+                onClose={() => setShowSnackbar(false)} // Close after auto-hide or manually
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+            >
+                <Alert onClose={() => setShowSnackbar(false)} severity="success" sx={{ width: '100%' }}>
+                    {successMessage}
+                </Alert>
+            </Snackbar>
         </Box>
     );
 };

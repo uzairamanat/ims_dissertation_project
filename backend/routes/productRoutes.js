@@ -38,84 +38,6 @@ router.get('/:id', auth, async (req, res) => {
     }
 });
 
-// Search products by name
-router.get('/search', auth, async (req, res) => {
-    try {
-        const { name } = req.query;
-        if (!name) {
-            return res.status(400).json({ message: 'Name query parameter is required' });
-        }
-
-        const products = await Product.find({ name: { $regex: name, $options: 'i' } });
-        res.status(200).json(products);
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
-});
-
-// Search products by category and/or price
-router.get('/filter', auth, async (req, res) => {
-    try {
-        const { category, minPrice, maxPrice } = req.query;
-
-        // Build the query object
-        let query = {};
-
-        if (category) {
-            query.category = category;
-        }
-
-        if (minPrice || maxPrice) {
-            query.price = {};
-            if (minPrice) {
-                query.price.$gte = Number(minPrice);
-            }
-            if (maxPrice) {
-                query.price.$lte = Number(maxPrice);
-            }
-        }
-
-        const products = await Product.find(query);
-        res.status(200).json(products);
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
-});
-
-// Search products by brand
-router.get('/brand', auth, async (req, res) => {
-    try {
-        const { brand } = req.query;
-        if (!brand) {
-            return res.status(400).json({ message: 'Brand query parameter is required' });
-        }
-
-        const products = await Product.find({ brand: { $regex: brand, $options: 'i' } });
-        res.status(200).json(products);
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
-});
-
-// Search products by SKU
-router.get('/sku', auth, async (req, res) => {
-    try {
-        const { SKU } = req.query;
-        if (!SKU) {
-            return res.status(400).json({ message: 'SKU query parameter is required' });
-        }
-
-        const product = await Product.findOne({ SKU: SKU });
-        if (product) {
-            res.status(200).json(product);
-        } else {
-            res.status(404).json({ message: 'Product not found' });
-        }
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
-});
-
 // Update a product by ID
 router.put('/:id', auth, async (req, res) => {
     try {
@@ -144,6 +66,7 @@ router.delete('/:id', auth, async (req, res) => {
     }
 });
 
+//Low stock alert route
 router.get('/alerts/low-stock', auth, async (req, res) => {
     try {
         const products = await Product.find({ quantity: { $lt: 10 } }); // Threshold set to 10 for low stock

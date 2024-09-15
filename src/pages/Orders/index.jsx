@@ -45,6 +45,8 @@ const Orders = () => {
     };
 
     const handleDelete = async (id) => {
+        const isConfirmed = window.confirm('Are you sure you want to delete this order?'); // Confirmation step
+        if (!isConfirmed) return; // If the user clicks "Cancel", do nothing
         const token = localStorage.getItem('token'); // Get JWT token from localStorage
 
         if (!token) {
@@ -96,8 +98,8 @@ const Orders = () => {
                 body: order.items.map(item => [
                     item.product.name,
                     item.quantity,
-                    item.priceAtPurchase.toFixed(2), // Price per unit formatted to 2 decimal places
-                    (item.priceAtPurchase * item.quantity).toFixed(2) // Total price formatted to 2 decimal places
+                    item.priceAtPurchase.toFixed(2), 
+                    (item.priceAtPurchase * item.quantity).toFixed(2) 
                 ])
             });
 

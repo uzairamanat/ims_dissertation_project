@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Button, Select, MenuItem, Typography, FormControl, InputLabel, TextField } from '@mui/material';
+import { Box, Button, Select, MenuItem, Typography, FormControl, InputLabel, TextField, Alert, Snackbar } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
@@ -14,6 +14,8 @@ const EditOrder = () => {
     const [products, setProducts] = useState([]);
     const [selectedProduct, setSelectedProduct] = useState('');
     const [quantity, setQuantity] = useState(1);  // State for the quantity
+    const [successMessage, setSuccessMessage] = useState(''); // State for success message
+    const [showSnackbar, setShowSnackbar] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -151,7 +153,14 @@ const EditOrder = () => {
                     'x-auth-token': token,
                 },
             });
-            navigate('/orders');
+            // Show success message and Snackbar
+            setSuccessMessage('Order updated successfully!');
+            setShowSnackbar(true); // Show Snackbar
+
+            // Set a timeout to navigate to the customers page after showing the notification
+            setTimeout(() => {
+                navigate('/orders'); // Navigate to the customers list page
+            }, 2000); // 2-second delay before navigating
         } catch (error) {
             console.error('Error updating order:', error);
         }
@@ -215,11 +224,23 @@ const EditOrder = () => {
                 ))}
             </ul>
             <Typography variant="h6">
-                Total Price: ${order.totalAmount.toFixed(2)}
+                Total Price: £{order.totalAmount.toFixed(2)}
             </Typography>
             <Button variant="contained" color="primary" type="submit" sx={{ mt: 2 }}>
                 Update Order
             </Button>
+
+            {/* Snackbar for success notification */}
+            <Snackbar
+                open={showSnackbar}
+                autoHideDuration={6000} // 6 seconds
+                onClose={() => setShowSnackbar(false)} // Close after auto-hide or manually
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+            >
+                <Alert onClose={() => setShowSnackbar(false)} severity="success" sx={{ width: '100%' }}>
+                    {successMessage}
+                </Alert>
+            </Snackbar>
         </Box>
     );
 };

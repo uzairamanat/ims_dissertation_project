@@ -47,13 +47,15 @@ const Products = () => {
     };
 
     const handleDelete = async (id) => {
-        const token = localStorage.getItem('token'); // Get JWT token from localStorage
-
+        const isConfirmed = window.confirm('Are you sure you want to delete this product?'); // Confirmation step
+        if (!isConfirmed) return; // If the user clicks "Cancel", do nothing
+    
+        const token = localStorage.getItem('token'); 
         if (!token) {
-            // If token is missing, redirect to login
             navigate('/login');
             return;
         }
+        
         try {
             await axios.delete(`http://localhost:5000/api/products/${id}`, {
                 headers: { 'x-auth-token': token }
@@ -63,6 +65,7 @@ const Products = () => {
             console.error('Error deleting product:', error);
         }
     };
+    
 
     const handlePriceRangeChange = (event, newValue) => {
         setPriceRange(newValue);

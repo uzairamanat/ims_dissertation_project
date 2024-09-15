@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Button, TextField, MenuItem, Typography, Select, FormControl, InputLabel } from '@mui/material';
+import { Box, Button, TextField, MenuItem, Typography, Select, FormControl, InputLabel, Alert, Snackbar } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -13,6 +13,8 @@ const NewOrder = () => {
     const [products, setProducts] = useState([]);
     const [selectedProduct, setSelectedProduct] = useState('');
     const [quantity, setQuantity] = useState(1);
+    const [successMessage, setSuccessMessage] = useState(''); // New state for success message
+    const [showSnackbar, setShowSnackbar] = useState(false); // State to control the Snackbar visibility
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -127,6 +129,14 @@ const NewOrder = () => {
                 }
             );
             navigate('/orders');
+            // Show success message
+            setSuccessMessage('Order created successfully!');
+            setShowSnackbar(true);
+            // Set a timeout to navigate to the orders page after showing the notification
+            setTimeout(() => {
+                navigate('/orders'); // Navigate to the orders page
+            }, 2000); // 2-second delay before navigating
+            setOrder({ customer: '', items: [], totalAmount: 0 });
         } catch (error) {
             console.error('Error creating order:', error.response ? error.response.data : error);
         }
@@ -181,10 +191,22 @@ const NewOrder = () => {
                     </li>
                 ))}
             </ul>
-            <Typography variant="h6">Total Price: ${order.totalAmount.toFixed(2)}</Typography>
+            <Typography variant="h6">Total Price: £{order.totalAmount.toFixed(2)}</Typography>
             <Button variant="contained" color="primary" type="submit" sx={{ mt: 2 }}>
                 Create Order
             </Button>
+
+            {/* Snackbar for success notification */}
+            <Snackbar
+                open={showSnackbar}
+                autoHideDuration={6000}
+                onClose={() => setShowSnackbar(false)}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+            >
+                <Alert onClose={() => setShowSnackbar(false)} severity="success" sx={{ width: '100%' }}>
+                    {successMessage}
+                </Alert>
+            </Snackbar>
         </Box>
     );
 };

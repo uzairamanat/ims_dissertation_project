@@ -16,6 +16,7 @@ import Orders from "pages/Orders";
 import NewOrder from "pages/NewOrder";
 import EditOrder from "pages/EditOrder";
 import Login from "pages/Login";
+import ProfileUpdate from "components/ProfileUpdate";
 
 function PrivateRoute({ children }) {
   const token = localStorage.getItem('token');
@@ -48,6 +49,7 @@ function App() {
               <Route path="/orders" element={<PrivateRoute><Orders /></PrivateRoute>} />
               <Route path="/orders/new" element={<PrivateRoute><NewOrder /></PrivateRoute>} />
               <Route path="orders/edit/:id" element={<PrivateRoute><EditOrder /></PrivateRoute>} />
+              <Route path="/profileupdate" element={<PrivateRoute><ProfileUpdate /></PrivateRoute>} />
             </Route>
           </Routes>
         </ThemeProvider>

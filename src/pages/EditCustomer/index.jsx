@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Button, TextField } from '@mui/material';
+import { Box, Button, TextField, Alert, Snackbar } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 const EditCustomer = () => {
     const { id } = useParams(); // Get the customer ID from the URL
+    const [successMessage, setSuccessMessage] = useState(''); // State for success message
+    const [showSnackbar, setShowSnackbar] = useState(false);
     const navigate = useNavigate();
 
     const [customer, setCustomer] = useState({
@@ -59,7 +61,14 @@ const EditCustomer = () => {
                     'x-auth-token': token // Add the token to the request header
                 }
             });
-            navigate('/customers');
+            // Show success message and Snackbar
+            setSuccessMessage('Customer updated successfully!');
+            setShowSnackbar(true); // Show Snackbar
+
+            // Set a timeout to navigate to the customers page after showing the notification
+            setTimeout(() => {
+                navigate('/customers'); // Navigate to the customers list page
+            }, 2000); // 2-second delay before navigating
         } catch (error) {
             console.error('Error updating customer:', error);
         }
@@ -110,6 +119,18 @@ const EditCustomer = () => {
             <Button type="submit" variant="contained" color="primary">
                 Update Customer
             </Button>
+
+            {/* Snackbar for success notification */}
+            <Snackbar
+                open={showSnackbar}
+                autoHideDuration={6000} // 6 seconds
+                onClose={() => setShowSnackbar(false)} // Close after auto-hide or manually
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+            >
+                <Alert onClose={() => setShowSnackbar(false)} severity="success" sx={{ width: '100%' }}>
+                    {successMessage}
+                </Alert>
+            </Snackbar>
         </Box>
     );
 };

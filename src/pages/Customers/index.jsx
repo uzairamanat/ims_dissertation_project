@@ -45,6 +45,9 @@ const Customers = () => {
     };
 
     const handleDelete = async (id) => {
+        const isConfirmed = window.confirm('Are you sure you want to delete this customer?'); // Confirmation step
+        if (!isConfirmed) return; // If the user clicks "Cancel", do nothing
+
         const token = localStorage.getItem('token'); // Get JWT token from localStorage
 
         if (!token) {

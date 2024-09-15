@@ -45,7 +45,7 @@ router.post(
             jwt.sign(
                 payload,
                 process.env.JWT_SECRET,
-                { expiresIn: '1h' },
+                { expiresIn: '3h' },
                 (err, token) => {
                     if (err) throw err;
                     res.json({ token });
@@ -93,7 +93,7 @@ router.post(
             jwt.sign(
                 payload,
                 process.env.JWT_SECRET,
-                { expiresIn: '1h' },
+                { expiresIn: '3h' },
                 (err, token) => {
                     if (err) throw err;
                     res.json({ token });
@@ -105,7 +105,7 @@ router.post(
         }
     }
 );
-// Update username
+// Update username route
 router.put(
     '/update-username',
     [
@@ -138,7 +138,7 @@ router.put(
     }
 );
 
-// Update password
+// Update password route
 router.put(
     '/update-password',
     [

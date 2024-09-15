@@ -90,7 +90,7 @@ router.post('/', auth, async (req, res) => {
     } catch (err) {
         await session.abortTransaction();
         session.endSession();
-        console.error('Error:', err.message); // Detailed error message
+        console.error('Error:', err.message); 
         res.status(400).json({ message: err.message });
     }
 });
@@ -119,6 +119,7 @@ router.get('/:id', auth, async (req, res) => {
     }
 });
 
+//Update an order by ID
 router.put('/:id', auth, async (req, res) => {
     try {
         const updatedOrder = await Order.findByIdAndUpdate(req.params.id, req.body, { new: true });
