@@ -1,7 +1,10 @@
+// Form page for creating a new product
+
 import React, { useState } from 'react';
 import { Box, Button, TextField, MenuItem, Alert, Snackbar } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+
 
 const categories = ['Rice', 'Spices', 'Drinks', 'Snacks', 'Air Fresheners', 'Pulses'];
 
@@ -40,12 +43,10 @@ const NewProduct = () => {
             });
             // Show success message and Snackbar
             setSuccessMessage('Product created successfully!');
-            setShowSnackbar(true); // Show Snackbar
-
-            // Set a timeout to navigate to the customers page after showing the notification
+            setShowSnackbar(true);
             setTimeout(() => {
-                navigate('/products'); // Navigate to the customers list page
-            }, 2000); // 2-second delay before navigating
+                navigate('/products'); // Navigate to the products list page
+            }, 2000); 
         } catch (error) {
             console.error('Error creating product:', error);
         }
@@ -147,8 +148,8 @@ const NewProduct = () => {
             {/* Snackbar for success notification */}
             <Snackbar
                 open={showSnackbar}
-                autoHideDuration={6000} // 6 seconds
-                onClose={() => setShowSnackbar(false)} // Close after auto-hide or manually
+                autoHideDuration={6000}
+                onClose={() => setShowSnackbar(false)}
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
             >
                 <Alert onClose={() => setShowSnackbar(false)} severity="success" sx={{ width: '100%' }}>

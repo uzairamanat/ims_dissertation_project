@@ -1,13 +1,15 @@
+// Component to keep track of items that are low in stock (less than 10)
+
 import React, { useState, useEffect } from "react";
 import { Box, Typography, CircularProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
-import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
+import { useNavigate } from "react-router-dom"; 
 import axios from "axios";
 
 const LowStockAlert = () => {
     const [lowStockProducts, setLowStockProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const navigate = useNavigate(); // Hook to navigate between routes
+    const navigate = useNavigate(); 
 
     // Fetch low-stock products
     useEffect(() => {
@@ -30,7 +32,7 @@ const LowStockAlert = () => {
             } catch (error) {
                 setLoading(false);
                 if (error.response && error.response.status === 401) {
-                    // If unauthorized, redirect to login
+                    // If unauthorised, redirect to login
                     navigate('/login');
                 } else {
                     setError(error.message || 'Error fetching low-stock products');
@@ -45,9 +47,9 @@ const LowStockAlert = () => {
     if (error) return <Typography color="error">{error}</Typography>;
 
     return (
-        <Box sx={{ mt: 3, p: 2, border: '1px solid', borderColor: 'grey.500', borderRadius: 2 }}>
-            {/* Title with orangeish color */}
-            <Typography variant="h5" gutterBottom sx={{ color: '#FF9800' }}>
+        <Box sx={{ mt: 1, p: 2, border: '1px solid', borderColor: 'grey.500', borderRadius: 2 }}>
+            
+            <Typography variant="h3" gutterBottom sx={{ color: '#FF9800' }}>
                 Low Stock Alerts
             </Typography>
 

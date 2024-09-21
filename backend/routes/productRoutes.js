@@ -1,5 +1,8 @@
+// Product management routes
+
 const express = require('express');
 const router = express.Router();
+// Import schema and middleware
 const Product = require('../models/Product');
 const auth = require('../middleware/auth');
 

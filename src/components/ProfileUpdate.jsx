@@ -1,8 +1,10 @@
+// Form page for the user to update their username and password
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Paper, Avatar, Typography, TextField, Button, Box, Alert } from '@mui/material';
 import { LockOutlined } from '@mui/icons-material';
-import { useTheme } from '@mui/material/styles'; // Import useTheme hook
+import { useTheme } from '@mui/material/styles';
 import axios from 'axios';
 
 const ProfileUpdate = () => {
@@ -16,6 +18,7 @@ const ProfileUpdate = () => {
   const navigate = useNavigate();
   const theme = useTheme(); // Access the theme
 
+  // Import update username api
   const handleUsernameSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem('token'); // Get JWT token from localStorage
@@ -41,6 +44,7 @@ const ProfileUpdate = () => {
     }
   };
 
+  // Import update password api
   const handlePasswordSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -107,7 +111,7 @@ const ProfileUpdate = () => {
             sx={{
               mb: 2,
               '& .MuiInputBase-root': {
-                backgroundColor: theme.palette.background.default, // Dynamic input background
+                backgroundColor: theme.palette.background.default, 
               },
             }}
             value={newUsername}
@@ -124,8 +128,8 @@ const ProfileUpdate = () => {
         sx={{
           padding: 2,
           width: 310,
-          backgroundColor: theme.palette.background.alt, // Dynamic background color
-          color: theme.palette.text.primary, // Dynamic text color
+          backgroundColor: theme.palette.background.alt, 
+          color: theme.palette.text.primary, 
           borderRadius: 4,
           marginLeft: 1,
         }}
@@ -149,7 +153,7 @@ const ProfileUpdate = () => {
             sx={{
               mb: 2,
               '& .MuiInputBase-root': {
-                backgroundColor: theme.palette.background.default, // Dynamic input background
+                backgroundColor: theme.palette.background.default, 
               },
             }}
             value={currentPassword}
@@ -164,7 +168,7 @@ const ProfileUpdate = () => {
             sx={{
               mb: 2,
               '& .MuiInputBase-root': {
-                backgroundColor: theme.palette.background.default, // Dynamic input background
+                backgroundColor: theme.palette.background.default, 
               },
             }}
             value={newPassword}

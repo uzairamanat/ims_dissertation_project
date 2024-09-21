@@ -1,8 +1,9 @@
+// Sidebar menu component
+
 import React, {useState, useEffect } from 'react';
 import {
   Box,
   Drawer,
-  IconButton,
   List,
   ListItem,
   ListItemButton,
@@ -12,30 +13,24 @@ import {
   useTheme
 } from '@mui/material';
 import {
-  ChevronLeft,
   ChevronRightOutlined,
   HomeOutlined,
   ShoppingCartOutlined,
   Groups2Outlined,
   ReceiptLongOutlined,
-  TodayOutlined,
-  CalendarMonthOutlined,
-  PieChartOutlined
 } from '@mui/icons-material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import FlexBetween from './FlexBetween';
 
+// All the menu items and their icons
 const navItems = [
   { text: "Dashboard", icon: <HomeOutlined /> },
   { text: "Products", icon: <ShoppingCartOutlined /> },
   { text: "Customers", icon: <Groups2Outlined /> },
   { text: "Orders", icon: <ReceiptLongOutlined /> },
-  { text: "Daily", icon: <TodayOutlined /> },
-  { text: "Monthly", icon: <CalendarMonthOutlined /> },
-  { text: "Breakdown", icon: <PieChartOutlined /> },
 ];
 
-const Sidebar = ({ drawerWidth, isSidebarOpen, setIsSidebarOpen, isNonMobile }) => {
+const Sidebar = ({ drawerWidth, isSidebarOpen }) => {
   const { pathname } = useLocation();
   const [active, setActive] = useState('');
   const navigate = useNavigate();
@@ -49,7 +44,6 @@ const Sidebar = ({ drawerWidth, isSidebarOpen, setIsSidebarOpen, isNonMobile }) 
     <Box component="nav">
       <Drawer
         open={isSidebarOpen}
-        onClose={() => setIsSidebarOpen(false)}
         variant="persistent"
         anchor="left"
         sx={{
@@ -58,7 +52,7 @@ const Sidebar = ({ drawerWidth, isSidebarOpen, setIsSidebarOpen, isNonMobile }) 
             color: theme.palette.secondary[200],
             backgroundColor: theme.palette.background.alt,
             boxSizing: 'border-box',
-            borderWidth: isNonMobile ? 0 : '2px',
+            borderWidth: '2px',
             width: drawerWidth
           }
         }}
@@ -71,13 +65,10 @@ const Sidebar = ({ drawerWidth, isSidebarOpen, setIsSidebarOpen, isNonMobile }) 
                   STOX
                 </Typography>
               </Box>
-              {!isNonMobile && (
-                <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
-                  <ChevronLeft />
-                </IconButton>
-              )}
             </FlexBetween>
           </Box>
+
+          {/* Menu items that maps through the 'navItems' array defined above */}
           <List>
             {navItems.map(({ text, icon }) => {
               if (!icon) {
@@ -93,15 +84,15 @@ const Sidebar = ({ drawerWidth, isSidebarOpen, setIsSidebarOpen, isNonMobile }) 
                 <ListItem key={text} disablePadding>
                   <ListItemButton
                     onClick={() => {
-                      navigate(`/${lcText}`);
+                      navigate(`/${lcText}`); // Navigates to the corresponding page when clicked
                       setActive(lcText);
                     }}
                     sx={{
-                      backgroundColor: active === lcText ? theme.palette.secondary[300] : 'transparent',
+                      backgroundColor: active === lcText ? theme.palette.secondary[300] : 'transparent',    // Menu colour changes when page is active
                       color: active === lcText ? theme.palette.primary[600] : theme.palette.secondary[100],
                     }}
                   >
-                    <ListItemIcon
+                    <ListItemIcon         // Icon for each menu button
                       sx={{
                         ml: "2rem",
                         color: active === lcText ? theme.palette.primary[600] : theme.palette.secondary[200],

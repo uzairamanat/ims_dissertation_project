@@ -1,3 +1,5 @@
+// Login page
+
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -10,10 +12,11 @@ const Login = () => {
   const [error, setError] = useState('');        
   const navigate = useNavigate();
 
+  // Function to handle login event
   const handleSubmit = async (e) => {
-    e.preventDefault();  // prevent form default submission
+    e.preventDefault(); 
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/login', { username, password });
+      const res = await axios.post('http://localhost:5000/api/auth/login', { username, password });  // Api call
       localStorage.setItem('token', res.data.token);  // Store the token in localStorage
       navigate('/dashboard');  // Redirect to the dashboard after successful login
     } catch (err) {
@@ -29,7 +32,7 @@ const Login = () => {
             display:'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundImage: 'url(https://i.imgur.com/GhPQ3Kl.jpeg)',
+            backgroundImage: 'url(https://i.imgur.com/GhPQ3Kl.jpeg)',  // background image
             backgroundSize: 'cover',
             backgroundPosition: 'center'
 

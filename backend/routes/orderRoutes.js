@@ -1,5 +1,8 @@
+// Order management routes
+
 const express = require('express');
 const router = express.Router();
+// Import schemas and middleware
 const Order = require('../models/Order');
 const Product = require('../models/Product');
 const Customer = require('../models/Customer');

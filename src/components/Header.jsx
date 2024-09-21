@@ -1,3 +1,5 @@
+// Header component to display the title and subtitle for each page
+
 import { Typography, Box, useTheme } from '@mui/material';
 import React from 'react'
 

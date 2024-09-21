@@ -1,3 +1,5 @@
+// Dashboard landing page
+
 import React, { useState, useEffect } from 'react';
 import SalesByCategoryChart from "components/SalesByCategoryChart";
 import SalesOverTimeChart from "components/SalesOverTimeChart"; 
@@ -5,7 +7,7 @@ import LowStockAlert from "components/LowStockAlert";
 import DashboardCard from "components/DashboardCard";
 import axios from "axios";
 import Header from "components/Header";
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
@@ -26,13 +28,13 @@ const Dashboard = () => {
 
             try {
                 const productResponse = await axios.get('http://localhost:5000/api/products', {
-                    headers: { 'x-auth-token': token }  // Pass the token in the header
+                    headers: { 'x-auth-token': token } 
                 });
                 const customerResponse = await axios.get('http://localhost:5000/api/customers', {
-                    headers: { 'x-auth-token': token }  // Pass the token in the header
+                    headers: { 'x-auth-token': token }  
                 });
                 const orderResponse = await axios.get('http://localhost:5000/api/orders', {
-                    headers: { 'x-auth-token': token }  // Pass the token in the header
+                    headers: { 'x-auth-token': token }  
                 });
 
                 setProductCount(productResponse.data.length);
@@ -40,7 +42,7 @@ const Dashboard = () => {
                 setOrderCount(orderResponse.data.length);
             } catch (error) {
                 if (error.response && error.response.status === 401) {
-                    // If unauthorized, redirect to login page
+                    // If unauthorised, redirect to login page
                     navigate('/login');
                 } else {
                     console.error('Error fetching data:', error);
@@ -84,7 +86,9 @@ const Dashboard = () => {
                 {/* Sales by Category Chart */}
                 <Grid item xs={12} md={6}>
                     <Box>
-                        <h2>Sales by Category</h2>
+                        <Typography variant='h3' sx={{color: '#FF9800'}}>
+                            Sales By Category
+                        </Typography>
                         <SalesByCategoryChart />
                     </Box>
                 </Grid>
@@ -92,7 +96,9 @@ const Dashboard = () => {
                 {/* Sales Over Time Chart */}
                 <Grid item xs={12} md={6}>
                     <Box>
-                        <h2>Sales This Year</h2>
+                    <Typography variant='h3' sx={{color: '#FF9800'}}>
+                            Sales This Year
+                        </Typography>
                         <SalesOverTimeChart />
                     </Box>
                 </Grid>

@@ -1,3 +1,5 @@
+// Form page for creating a new order
+
 import React, { useState, useEffect } from 'react';
 import { Box, Button, TextField, MenuItem, Typography, Select, FormControl, InputLabel, Alert, Snackbar } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
@@ -18,6 +20,8 @@ const NewOrder = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+
+        // Api calls
         const fetchCustomers = async () => {
             const token = localStorage.getItem('token'); // Get JWT token from localStorage
 
@@ -39,10 +43,9 @@ const NewOrder = () => {
         };
 
         const fetchProducts = async () => {
-            const token = localStorage.getItem('token'); // Get JWT token from localStorage
+            const token = localStorage.getItem('token');
 
             if (!token) {
-                // If token is missing, redirect to login
                 navigate('/login');
                 return;
             }
@@ -98,7 +101,7 @@ const NewOrder = () => {
                         totalPrice: productTotal
                     }
                 ],
-                totalAmount: prevOrder.totalAmount + productTotal
+                totalAmount: prevOrder.totalAmount + productTotal     // calculate the total
             }));
         }
         setSelectedProduct('');
@@ -107,10 +110,9 @@ const NewOrder = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const token = localStorage.getItem('token'); // Get JWT token from localStorage
+        const token = localStorage.getItem('token'); 
 
         if (!token) {
-            // If token is missing, redirect to login
             navigate('/login');
             return;
         }
@@ -132,10 +134,9 @@ const NewOrder = () => {
             // Show success message
             setSuccessMessage('Order created successfully!');
             setShowSnackbar(true);
-            // Set a timeout to navigate to the orders page after showing the notification
             setTimeout(() => {
                 navigate('/orders'); // Navigate to the orders page
-            }, 2000); // 2-second delay before navigating
+            }, 2000);
             setOrder({ customer: '', items: [], totalAmount: 0 });
         } catch (error) {
             console.error('Error creating order:', error.response ? error.response.data : error);
@@ -143,6 +144,8 @@ const NewOrder = () => {
     };
     
     return (
+
+        // Main form
         <Box component="form" onSubmit={handleSubmit} sx={{ padding: 2, maxWidth: 600 }}>
             <FormControl fullWidth margin="normal">
                 <InputLabel>Customer</InputLabel>
@@ -183,6 +186,8 @@ const NewOrder = () => {
                     Add Product
                 </Button>
             </Box>
+
+            {/* Dynamic order summary that updates as order is completed */}
             <Typography variant="h6" sx={{ mb: 2 }}>Order Summary</Typography>
             <ul>
                 {order.items.map((item, index) => (
