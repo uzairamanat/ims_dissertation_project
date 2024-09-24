@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 //Import schemas
-const salesData = require('../models/salesData'); 
+const salesData = require('../models/SalesData'); 
 const Product = require('../models/Product'); 
 
 // Get total sales between two dates
