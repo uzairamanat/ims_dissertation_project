@@ -1,5 +1,3 @@
-// Form page for creating a new customer
-
 import React, { useState } from 'react';
 import { Box, Button, TextField, Snackbar, Alert } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
@@ -34,18 +32,20 @@ const NewCustomer = () => {
         try {
             await axios.post('http://localhost:5000/api/customers', customer, {
                 headers: {
-                    'x-auth-token': token 
+                    'x-auth-token': token // Add the token to the request header
                 }
             });
 
             // Show success message and Snackbar
             setSuccessMessage('Customer created successfully!');
-            setShowSnackbar(true); 
+            setShowSnackbar(true); // Show Snackbar
+
+            // Set a timeout to navigate to the customers page after showing the notification
             setTimeout(() => {
                 navigate('/customers'); // Navigate to the customers list page
-            }, 2000); 
+            }, 2000); // 2-second delay before navigating
 
-            // Reset the form
+            // Optionally reset the form after submission
             setCustomer({
                 name: '',
                 email: '',
@@ -59,8 +59,6 @@ const NewCustomer = () => {
     };
 
     return (
-
-        // Main form
         <Box component="form" onSubmit={handleSubmit} sx={{ padding: 1, maxWidth: 400 }}>
             <TextField
                 label="Name"
@@ -114,8 +112,8 @@ const NewCustomer = () => {
             {/* Snackbar for success notification */}
             <Snackbar
                 open={showSnackbar}
-                autoHideDuration={6000}
-                onClose={() => setShowSnackbar(false)} 
+                autoHideDuration={6000} // 6 seconds
+                onClose={() => setShowSnackbar(false)} // Close after auto-hide or manually
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
             >
                 <Alert onClose={() => setShowSnackbar(false)} severity="success" sx={{ width: '100%' }}>

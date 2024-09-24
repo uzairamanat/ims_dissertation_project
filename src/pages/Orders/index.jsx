@@ -1,5 +1,3 @@
-// Orders page
-
 import React, { useEffect, useState } from 'react';
 import {
     Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, 
@@ -22,8 +20,6 @@ const Orders = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-
-        // Api calls
         const fetchOrders = async () => {
             const token = localStorage.getItem('token'); // Get JWT token from localStorage
 
@@ -48,13 +44,13 @@ const Orders = () => {
         navigate(`/orders/edit/${id}`);
     };
 
-    // Function to handle delete event
     const handleDelete = async (id) => {
         const isConfirmed = window.confirm('Are you sure you want to delete this order?'); // Confirmation step
         if (!isConfirmed) return; // If the user clicks "Cancel", do nothing
-        const token = localStorage.getItem('token'); 
+        const token = localStorage.getItem('token'); // Get JWT token from localStorage
 
         if (!token) {
+            // If token is missing, redirect to login
             navigate('/login');
             return;
         }
@@ -69,11 +65,11 @@ const Orders = () => {
         }
     };
     
-    // Function to create the invoice pdf when export button is clicked
     const handleExport = async (orderId) => {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('token'); // Get JWT token from localStorage
 
         if (!token) {
+            // If token is missing, redirect to login
             navigate('/login');
             return;
         }
@@ -117,12 +113,10 @@ const Orders = () => {
         }
     };
 
-    // Search filters 
     const filteredOrders = orders.filter(order => 
         order.customer.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    // Pagination controls
     const indexOfLastOrder = currentPage * itemsPerPage;
     const indexOfFirstOrder = indexOfLastOrder - itemsPerPage;
     const currentOrders = filteredOrders.slice(indexOfFirstOrder, indexOfLastOrder);
@@ -132,7 +126,6 @@ const Orders = () => {
         setCurrentPage(value);
     };
 
-    // Date formatter
     const formatDate = (dateString) => {
         const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
         return new Intl.DateTimeFormat('en-GB', options).format(new Date(dateString));
@@ -157,7 +150,6 @@ const Orders = () => {
                 />
             </Box>
 
-            {/* Main table with backend data */}
             <TableContainer component={Paper} sx={{ maxHeight: 500, backgroundColor: 'transparent', mt: 2 }}>
                 <Table size="small" stickyHeader>
                     <TableHead>
@@ -190,8 +182,6 @@ const Orders = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
-
-            {/* Pagination */}
             <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
                 <Pagination
                     count={totalPages}

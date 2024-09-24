@@ -1,5 +1,3 @@
-// Customers page
-
 import React, { useEffect, useState } from 'react';
 import {
     Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, 
@@ -50,9 +48,10 @@ const Customers = () => {
         const isConfirmed = window.confirm('Are you sure you want to delete this customer?'); // Confirmation step
         if (!isConfirmed) return; // If the user clicks "Cancel", do nothing
 
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('token'); // Get JWT token from localStorage
 
         if (!token) {
+            // If token is missing, redirect to login
             navigate('/login');
             return;
         }
@@ -78,8 +77,6 @@ const Customers = () => {
     // Get unique cities from the customers data
     const uniqueCities = [...new Set(customers.map(customer => customer.city))];
 
-
-    // Pagination filters
     const indexOfLastCustomer = currentPage * itemsPerPage;
     const indexOfFirstCustomer = indexOfLastCustomer - itemsPerPage;
     const currentCustomers = filteredCustomers.slice(indexOfFirstCustomer, indexOfLastCustomer);
@@ -89,18 +86,13 @@ const Customers = () => {
         setCurrentPage(value);
     };
 
-    
     return (
         <Box sx={{ ml: 1 }}>
             <Header title="CUSTOMERS" subtitle="All current customers in the system." />
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2, mt: 1, mr: 4 }}>
-                
-                {/* New customer button */}
                 <Button variant="contained" color="primary" onClick={() => navigate('/customers/new')}>
                     New Customer
                 </Button>
-
-                {/* Search box */}
                 <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
                     <TextField
                         label="Search..."
@@ -109,8 +101,6 @@ const Customers = () => {
                         onChange={(e) => setSearchTerm(e.target.value)}
                         sx={{ width: 150, maxWidth: '100%', height: 40 }}
                     />
-
-                    {/* City Filter */}
                     <FormControl variant="outlined" sx={{ minWidth: 120, maxWidth: 150 }}>
                         <InputLabel>City</InputLabel>
                         <Select
@@ -128,8 +118,6 @@ const Customers = () => {
                     </FormControl>
                 </Box>
             </Box>
-
-            {/* Main table with data from backend */}
             <TableContainer component={Paper} sx={{ maxHeight: 500, backgroundColor: 'transparent' }}>
                 <Table size="small" stickyHeader>
                     <TableHead>
@@ -163,8 +151,6 @@ const Customers = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
-
-            {/* Pagination controls */}
             <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
                 <Pagination
                     count={totalPages}

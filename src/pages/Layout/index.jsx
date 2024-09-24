@@ -1,5 +1,3 @@
-// This page will ensure that the nav and sidebar are always showing no matter what the active page is
-
 import React, { useState } from 'react';
 import { Outlet } from "react-router-dom";
 import { Box, useMediaQuery } from "@mui/material";

@@ -1,5 +1,3 @@
-// Top navbar component with dark/light mode button and settings
-
 import React, { useState } from 'react';
 import { LightModeOutlined, DarkModeOutlined, SettingsOutlined } from '@mui/icons-material';
 import FlexBetween from './FlexBetween';
@@ -25,10 +23,10 @@ const Navbar = () => {
     setAnchorEl(null);
   };
 
-  // Function to handle logout event
+  //Function to handle logout event
   const handleLogout = () => {
     localStorage.removeItem('x-auth-token'); // Clears the authentication token
-    navigate('/login'); // Redirects to login page
+    navigate('/login'); // Redirect to login page
     handleClose(); // Closes the menu
   };
 
@@ -63,7 +61,7 @@ const Navbar = () => {
             <SettingsOutlined sx={{ fontSize: "25px" }} />
           </IconButton>
 
-          {/* Settings Dropdown Menu */}
+          {/* Dropdown Menu */}
           <Menu
             anchorEl={anchorEl}
             open={open}
@@ -78,7 +76,7 @@ const Navbar = () => {
             }}
           >
             <MenuItem onClick={handleProfile}>
-              <Typography>Update Details</Typography>
+              <Typography>Manage Profile</Typography>
             </MenuItem>
             <MenuItem onClick={handleLogout}>
               <Typography>Logout</Typography>

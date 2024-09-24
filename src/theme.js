@@ -1,6 +1,4 @@
-// Theme file that contains all the colour palettes for the project
-
-// colour design tokens export
+// color design tokens export
 export const tokensDark = {
     grey: {
       0: "#ffffff", 
@@ -109,7 +107,6 @@ export const tokensDark = {
               },
             }),
       },
-      // global font settings
       typography: {
         fontFamily: ["Inter", "sans-serif"].join(","),
         fontSize: 12,

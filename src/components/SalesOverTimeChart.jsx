@@ -1,5 +1,3 @@
-// Line chart for displaying the sales over the last year
-
 import React from 'react';
 import { ResponsiveLine } from '@nivo/line';
 import { useTheme } from '@mui/material/styles'; 
@@ -16,20 +14,20 @@ const SalesOverTimeChart = () => {
     const data = [
         {
             id: 'Sales',
-            color: tokens.primary[400],
+            color: tokens.primary[400], // Use primary color from theme
             data: [
-                { x: 'OCT', y: 1500 },
-                { x: 'NEV', y: 1800 },
-                { x: 'DEC', y: 2000 },
-                { x: 'JAN', y: 2500 },
-                { x: 'FEB', y: 3000 },
-                { x: 'MAR', y: 3200 },
-                { x: 'APR', y: 2800 },
-                { x: 'MAY', y: 3500 },
-                { x: 'JUN', y: 2700 },
-                { x: 'JUL', y: 4000 },
-                { x: 'AUG', y: 3800 },
-                { x: 'SEP', y: 4500 },
+                { x: 'JAN', y: 1500 },
+                { x: 'FEB', y: 1800 },
+                { x: 'MAR', y: 2000 },
+                { x: 'APR', y: 2500 },
+                { x: 'MAY', y: 3000 },
+                { x: 'JUN', y: 3200 },
+                { x: 'JUL', y: 2800 },
+                { x: 'AUG', y: 3500 },
+                { x: 'SEP', y: 2700 },
+                { x: 'OCT', y: 4000 },
+                { x: 'NOV', y: 3800 },
+                { x: 'DEC', y: 4500 },
             ],
         },
     ];
@@ -38,7 +36,7 @@ const SalesOverTimeChart = () => {
         <div style={{ height: '50vh', width: '40vw' }}>
             <ResponsiveLine
                 data={data}
-                margin={{ top: 20, right: 110, bottom: 50, left: 60 }}
+                margin={{ top: 10, right: 110, bottom: 50, left: 60 }}
                 xScale={{ type: 'point' }}
                 yScale={{
                     type: 'linear',
@@ -57,7 +55,7 @@ const SalesOverTimeChart = () => {
                     legend: 'Month',
                     legendOffset: 36,
                     legendPosition: 'middle',
-                    tickColor: tokens.grey[100], 
+                    tickColor: tokens.grey[100], // Use theme color for ticks
                     legendTextColor: tokens.grey[100], // Use theme color for legend text
                 }}
                 axisLeft={{
@@ -86,26 +84,26 @@ const SalesOverTimeChart = () => {
                     axis: {
                         ticks: {
                             line: {
-                                stroke: tokens.grey[100], 
+                                stroke: tokens.grey[100], // Dynamic tick line color
                             },
                             text: {
-                                fill: tokens.grey[100],
+                                fill: tokens.grey[100], // Dynamic tick text color
                             },
                         },
                         legend: {
                             text: {
-                                fill: tokens.grey[100], 
+                                fill: tokens.grey[100], // Dynamic legend text color
                             },
                         },
                     },
                     legends: {
                         text: {
-                            fill: tokens.grey[100], 
+                            fill: tokens.grey[100], // Dynamic legend color
                         },
                     },
                     grid: {
                         line: {
-                            stroke: tokens.grey[500], 
+                            stroke: tokens.grey[500], // Dynamic grid line color
                         },
                     },
                     crosshair: {
@@ -123,8 +121,6 @@ const SalesOverTimeChart = () => {
                     },
                 }}
                 legends={[]}
-
-                // Hover effect display text
                 tooltip={({ point }) => (
                     <div
                         style={{

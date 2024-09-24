@@ -1,5 +1,3 @@
-// Form to edit selected product
-
 import React, { useState, useEffect } from 'react';
 import { Box, Button, TextField, Alert, Snackbar } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -34,7 +32,7 @@ const EditProduct = () => {
             try {
                 const response = await axios.get(`http://localhost:5000/api/products/${id}`, {
                     headers: {
-                        'x-auth-token': token
+                        'x-auth-token': token // Add the token to the request header
                     }
                 });
                 setProduct(response.data);
@@ -52,23 +50,26 @@ const EditProduct = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('token'); // Get JWT token from localStorage
 
         if (!token) {
+           // If token is missing, redirect to login
             navigate('/login');
             return;
         } 
         try {
             await axios.put(`http://localhost:5000/api/products/${id}`, product, {
                 headers: {
-                    'x-auth-token': token
+                    'x-auth-token': token // Add the token to the request header
                 }
             });
             // Show success message and Snackbar
             setSuccessMessage('Product updated successfully!');
-            setShowSnackbar(true);
+            setShowSnackbar(true); // Show Snackbar
+
+            // Set a timeout to navigate to the customers page after showing the notification
             setTimeout(() => {
-                navigate('/products'); // Navigate to the products list page
+                navigate('/products'); // Navigate to the customers list page
             }, 2000); // 2-second delay before navigating
         } catch (error) {
             console.error('Error updating product:', error);
@@ -76,7 +77,6 @@ const EditProduct = () => {
     };
 
     return (
-        // Main form
         <Box component="form" onSubmit={handleSubmit} sx={{ padding: 1, maxWidth: 400}}>
             <TextField
                 label="Brand"
@@ -167,8 +167,8 @@ const EditProduct = () => {
             {/* Snackbar for success notification */}
             <Snackbar
                 open={showSnackbar}
-                autoHideDuration={6000}
-                onClose={() => setShowSnackbar(false)} 
+                autoHideDuration={6000} // 6 seconds
+                onClose={() => setShowSnackbar(false)} // Close after auto-hide or manually
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
             >
                 <Alert onClose={() => setShowSnackbar(false)} severity="success" sx={{ width: '100%' }}>

@@ -1,5 +1,3 @@
-// Mongoose database schema to store data for products
-
 const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema({

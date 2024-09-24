@@ -1,5 +1,3 @@
-// Mongoose database schema to store data for system users/admin
-
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({

@@ -1,5 +1,3 @@
-// Mongoose database schema to store data for customers
-
 const mongoose = require('mongoose');
 
 const customerSchema = new mongoose.Schema({

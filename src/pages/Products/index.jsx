@@ -1,5 +1,3 @@
-// Products page
-
 import React, { useEffect, useState } from 'react';
 import {
     Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, 
@@ -24,8 +22,6 @@ const Products = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-
-        // Api calls
         const fetchProducts = async () => {
             const token = localStorage.getItem('token'); // Get JWT token from localStorage
 
@@ -50,7 +46,6 @@ const Products = () => {
         navigate(`/products/edit/${id}`);
     };
 
-    // Function to handle delete event
     const handleDelete = async (id) => {
         const isConfirmed = window.confirm('Are you sure you want to delete this product?'); // Confirmation step
         if (!isConfirmed) return; // If the user clicks "Cancel", do nothing
@@ -102,8 +97,6 @@ const Products = () => {
                 <Button variant="contained" color="primary" onClick={() => navigate('/products/new')}>
                     New Product
                 </Button>
-
-                { /* All search and price filters */ }
                 <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
                     <TextField
                         label="Search..."
@@ -151,15 +144,13 @@ const Products = () => {
                             onChange={handlePriceRangeChange}
                             valueLabelDisplay="auto"
                             min={0}
-                            max={50}
+                            max={100}
                             step={1}
                             sx={{ width: '90%' }}
                         />
                     </Box>
                 </Box>
             </Box>
-
-            {/* Main table with backend data */}
             <TableContainer component={Paper} sx={{ maxHeight: 500, backgroundColor: 'transparent' }}>
                 <Table size="small" stickyHeader>
                     <TableHead>
@@ -199,8 +190,6 @@ const Products = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
-
-            {/* Pagination */}
             <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
                 <Pagination
                     count={totalPages}

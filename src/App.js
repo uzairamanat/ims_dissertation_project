@@ -1,12 +1,10 @@
-// Main frontend react app file containing all controls and routes
-
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material";
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { themeSettings } from "theme";
-import Dashboard from "pages/dashboard";
+import Dashboard from "pages/Dashboard";
 import Layout from "pages/Layout";
 import Products from "pages/Products";
 import NewProduct from "pages/NewProduct";
@@ -20,7 +18,6 @@ import EditOrder from "pages/EditOrder";
 import Login from "pages/Login";
 import ProfileUpdate from "components/ProfileUpdate";
 
-// Function that ensures private pages are only visible after a sucessful login and token are applied
 function PrivateRoute({ children }) {
   const token = localStorage.getItem('token');
   return token ? children : <Navigate to="/login" replace />;
@@ -36,10 +33,10 @@ function App() {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <Routes>
-            {/* Public Route for Login Access*/}
+            {/* Public Route for Login */}
             <Route path="/login" element={<Login />} />
 
-            {/* Private Routes available after succesful login */}
+            {/* Private Routes */}
             <Route element={<Layout />}>
               <Route path="/" element={<PrivateRoute><Navigate to="/dashboard" replace /></PrivateRoute>} />
               <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />

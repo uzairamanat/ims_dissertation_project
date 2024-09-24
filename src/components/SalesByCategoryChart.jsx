@@ -1,5 +1,3 @@
-// Pie chart component displaying sales by category
-
 import React from 'react';
 import { ResponsivePie } from '@nivo/pie';
 
@@ -14,14 +12,14 @@ const SalesByCategoryChart = () => {
         { id: 'Pulses', label: 'Pulses', value: 400 },
     ];
 
-    // Calculate total sales for display in the centre of the chart
+    // Calculate total sales
     const totalSales = data.reduce((acc, category) => acc + category.value, 0);
 
     return (
         <div style={{ height: '40vh', width: '31vw', position: 'relative'}}>
             <ResponsivePie
                 data={data}
-                margin={{ top: 35, right: 0, bottom: 30, left: 0 }}
+                margin={{ top: 30, right: 0, bottom: 30, left: 0 }}
                 innerRadius={0.5}
                 padAngle={0.7}
                 cornerRadius={3}
@@ -60,13 +58,13 @@ const SalesByCategoryChart = () => {
                     transform: 'translate(-50%, -50%)',
                     textAlign: 'center',
                     fontSize: '13px',
-                    color: '#ffffff',
+                    color: '#ffffff', // You can adjust this color based on your background
                     pointerEvents: 'none',
                 }}
             >
                 <strong>Total Sales</strong>
                 <br />
-                £{totalSales}
+                ${totalSales}
             </div>
         </div>
     );

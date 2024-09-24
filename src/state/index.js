@@ -1,5 +1,3 @@
-// Initiate state for dark and light mode controls
-
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {

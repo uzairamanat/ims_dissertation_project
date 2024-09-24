@@ -1,5 +1,3 @@
-// Mongoose database schema to store data for orders
-
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
