@@ -9,15 +9,6 @@ require('dotenv').config(); // Load environment variables from .env file
 const app = express();
 const PORT = process.env.PORT || 5000; // Defines the port and it's server number
 
-// Serve frontend in production
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '../build')));
-  
-    app.get('*', (req, res) => {
-      res.sendFile(path.join(__dirname, '../build', 'index.html'));
-    });
-  }
-
 // Middleware
 app.use(cors()); // Enable Cross-Origin Resource Sharing (allow requests from different domains)
 app.use(express.json()); // Parse incoming JSON requests
