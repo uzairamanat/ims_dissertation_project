@@ -144,7 +144,7 @@ const Products = () => {
                             onChange={handlePriceRangeChange}
                             valueLabelDisplay="auto"
                             min={0}
-                            max={100}
+                            max={50}
                             step={1}
                             sx={{ width: '90%' }}
                         />

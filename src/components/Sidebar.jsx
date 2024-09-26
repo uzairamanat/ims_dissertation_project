@@ -30,9 +30,6 @@ const navItems = [
   { text: "Products", icon: <ShoppingCartOutlined /> },
   { text: "Customers", icon: <Groups2Outlined /> },
   { text: "Orders", icon: <ReceiptLongOutlined /> },
-  { text: "Daily", icon: <TodayOutlined /> },
-  { text: "Monthly", icon: <CalendarMonthOutlined /> },
-  { text: "Breakdown", icon: <PieChartOutlined /> },
 ];
 
 const Sidebar = ({ drawerWidth, isSidebarOpen, setIsSidebarOpen, isNonMobile }) => {
