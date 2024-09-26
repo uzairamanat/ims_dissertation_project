@@ -64,7 +64,7 @@ const SalesByCategoryChart = () => {
             >
                 <strong>Total Sales</strong>
                 <br />
-                ${totalSales}
+                £{totalSales}
             </div>
         </div>
     );

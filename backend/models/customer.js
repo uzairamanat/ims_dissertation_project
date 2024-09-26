@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 
 const customerSchema = new mongoose.Schema({
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    phone: { type: String, required: true },
-    streetAddress: { type: String, required: true },
-    city: { type: String, required: true},
+    name: { type: String, required: true, minlength: 2, maxlength: 100 }, 
+    email: { type: String, required: true, unique: true, match: /^\S+@\S+\.\S+$/ }, // Ensures valid email format
+    phone: { type: String, required: true, minlength: 7, maxlength: 15 }, // Phone number length constraints
+    streetAddress: { type: String, required: true, minlength: 5, maxlength: 150 }, 
+    city: { type: String, required: true, minlength: 2, maxlength: 50 }, 
     dateAdded: { type: Date, default: Date.now }
 });
 

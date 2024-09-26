@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { themeSettings } from "theme";
-import Dashboard from "pages/Dashboard";
+import Dashboard from "pages/dashboard";
 import Layout from "pages/Layout";
 import Products from "pages/Products";
 import NewProduct from "pages/NewProduct";
