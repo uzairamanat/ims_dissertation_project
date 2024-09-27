@@ -5,7 +5,6 @@ const auth = require('./middleware/auth');
 require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors());
@@ -26,10 +25,9 @@ app.use('/api/customers', auth, require('./routes/customerRoutes'));
 app.use('/api/orders', auth, require('./routes/orderRoutes'));
 app.use('/api/salesData', require('./routes/salesRoutes'));
 
+// Root endpoint
 app.get('/', (req, res) => {
     res.send('API is running...');
 });
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+module.exports = app;
