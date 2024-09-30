@@ -1,9 +1,11 @@
+// All the routes related to sales, for future integration
+
 const express = require('express');
 const router = express.Router();
-//Import schemas
 const salesData = require('../models/SalesData'); 
 const Product = require('../models/Product'); 
 
+// Track sales over a time period
 router.get('/sales/total', async (req, res) => {
     try {
         const { startDate, endDate } = req.query;
@@ -17,6 +19,7 @@ router.get('/sales/total', async (req, res) => {
     }
 });
 
+// Tracks total sales
 router.get('/sales/product/:productId', async (req, res) => {
     try {
         const { productId } = req.params;
@@ -27,7 +30,7 @@ router.get('/sales/product/:productId', async (req, res) => {
     }
 });
 
-// Get sales data grouped by category
+// Tracks sales data grouped by category
 router.get('/category', async (req, res) => {
     try {
         const salesByCategory = await SalesData.aggregate([

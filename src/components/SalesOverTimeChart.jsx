@@ -1,3 +1,5 @@
+// Line graph to display sales over the last year
+
 import React from 'react';
 import { ResponsiveLine } from '@nivo/line';
 import { useTheme } from '@mui/material/styles'; 
@@ -55,8 +57,8 @@ const SalesOverTimeChart = () => {
                     legend: 'Month',
                     legendOffset: 36,
                     legendPosition: 'middle',
-                    tickColor: tokens.grey[100], // Use theme color for ticks
-                    legendTextColor: tokens.grey[100], // Use theme color for legend text
+                    tickColor: tokens.grey[100], 
+                    legendTextColor: tokens.grey[100], 
                 }}
                 axisLeft={{
                     orient: 'left',
@@ -84,26 +86,26 @@ const SalesOverTimeChart = () => {
                     axis: {
                         ticks: {
                             line: {
-                                stroke: tokens.grey[100], // Dynamic tick line color
+                                stroke: tokens.grey[100], 
                             },
                             text: {
-                                fill: tokens.grey[100], // Dynamic tick text color
+                                fill: tokens.grey[100], 
                             },
                         },
                         legend: {
                             text: {
-                                fill: tokens.grey[100], // Dynamic legend text color
+                                fill: tokens.grey[100], 
                             },
                         },
                     },
                     legends: {
                         text: {
-                            fill: tokens.grey[100], // Dynamic legend color
+                            fill: tokens.grey[100], 
                         },
                     },
                     grid: {
                         line: {
-                            stroke: tokens.grey[500], // Dynamic grid line color
+                            stroke: tokens.grey[500], 
                         },
                     },
                     crosshair: {

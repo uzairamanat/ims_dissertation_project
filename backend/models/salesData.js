@@ -1,3 +1,5 @@
+// Mongoose schema to store data for sales data, that could be integrated in future iterations
+
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 

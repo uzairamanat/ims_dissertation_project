@@ -1,3 +1,5 @@
+// Reusable header for the titles of each page
+
 import { Typography, Box, useTheme } from '@mui/material';
 import React from 'react'
 

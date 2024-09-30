@@ -1,3 +1,5 @@
+// Simple form page to update username and password
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Paper, Avatar, Typography, TextField, Button, Box, Alert } from '@mui/material';
@@ -14,14 +16,14 @@ const ProfileUpdate = () => {
   const [successMessage, setSuccessMessage] = useState('');
   const [showSuccess, setShowSuccess] = useState(false);
   const navigate = useNavigate();
-  const theme = useTheme(); // Access the theme
+  const theme = useTheme(); 
 
   const handleUsernameSubmit = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem('token'); // Get JWT token from localStorage
+    const token = localStorage.getItem('token'); 
 
     if (!token) {
-        // If token is missing, redirect to login
+        
         navigate('/login');
         return;
     }
@@ -68,8 +70,8 @@ const ProfileUpdate = () => {
         sx={{
           padding: 2,
           width: 310,
-          backgroundColor: theme.palette.background.alt, // Dynamic background color
-          color: theme.palette.text.primary, // Dynamic text color
+          backgroundColor: theme.palette.background.alt, 
+          color: theme.palette.text.primary, 
           borderRadius: 4,
           marginBottom: 4,
           marginLeft: 1,

@@ -1,3 +1,5 @@
+// Pie chart to display sales by category
+
 import React from 'react';
 import { ResponsivePie } from '@nivo/pie';
 
@@ -58,7 +60,7 @@ const SalesByCategoryChart = () => {
                     transform: 'translate(-50%, -50%)',
                     textAlign: 'center',
                     fontSize: '13px',
-                    color: '#ffffff', // You can adjust this color based on your background
+                    color: '#ffffff', 
                     pointerEvents: 'none',
                 }}
             >

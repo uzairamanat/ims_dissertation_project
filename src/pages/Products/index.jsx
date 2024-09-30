@@ -1,3 +1,5 @@
+// Main products page
+
 import React, { useEffect, useState } from 'react';
 import {
     Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, 
@@ -23,10 +25,9 @@ const Products = () => {
 
     useEffect(() => {
         const fetchProducts = async () => {
-            const token = localStorage.getItem('token'); // Get JWT token from localStorage
-
+            const token = localStorage.getItem('token');
             if (!token) {
-                // If token is missing, redirect to login
+                
                 navigate('/login');
                 return;
             }
@@ -97,6 +98,7 @@ const Products = () => {
                 <Button variant="contained" color="primary" onClick={() => navigate('/products/new')}>
                     New Product
                 </Button>
+                {/* Search box */}
                 <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
                     <TextField
                         label="Search..."
@@ -105,6 +107,8 @@ const Products = () => {
                         onChange={(e) => setSearchTerm(e.target.value)}
                         sx={{ width: 150, maxWidth: '100%', height: 40}}
                     />
+
+                    {/* Category Filter */}
                     <FormControl variant="outlined" sx={{ minWidth: 120, maxWidth: 150 }}>
                         <InputLabel>Category</InputLabel>
                         <Select
@@ -121,6 +125,8 @@ const Products = () => {
                             <MenuItem value="Pulses">Pulses</MenuItem>
                         </Select>
                     </FormControl>
+
+                    {/* Brand Filter */}
                     <FormControl variant="outlined" sx={{ minWidth: 120, maxWidth: 150 }}>
                         <InputLabel>Brand</InputLabel>
                         <Select
@@ -137,6 +143,8 @@ const Products = () => {
                             <MenuItem value="Rozee">Rozee</MenuItem>
                         </Select>
                     </FormControl>
+
+                    {/* Price slider */}
                     <Box sx={{ width: 250, paddingLeft: 2 }}>
                         <Typography gutterBottom>Price Range</Typography>
                         <Slider

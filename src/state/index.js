@@ -1,3 +1,5 @@
+// Manages dark and light mode states
+
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {

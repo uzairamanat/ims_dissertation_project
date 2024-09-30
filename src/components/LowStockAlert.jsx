@@ -1,3 +1,5 @@
+// Tracks which products have gone below 10 in stock then displays them on the dashboard
+
 import React, { useState, useEffect } from "react";
 import { Box, Typography, CircularProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
@@ -22,7 +24,7 @@ const LowStockAlert = () => {
 
             try {
                 const response = await axios.get('http://localhost:5000/api/products/alerts/low-stock', {
-                    headers: { 'x-auth-token': token } // Pass the token in the headers
+                    headers: { 'x-auth-token': token } 
                 });
 
                 setLowStockProducts(response.data);
@@ -30,7 +32,7 @@ const LowStockAlert = () => {
             } catch (error) {
                 setLoading(false);
                 if (error.response && error.response.status === 401) {
-                    // If unauthorized, redirect to login
+                    
                     navigate('/login');
                 } else {
                     setError(error.message || 'Error fetching low-stock products');
@@ -46,7 +48,7 @@ const LowStockAlert = () => {
 
     return (
         <Box sx={{ mt: 3, p: 2, border: '1px solid', borderColor: 'grey.500', borderRadius: 2 }}>
-            {/* Title with orangeish color */}
+            {/* Title with orange color */}
             <Typography variant="h5" gutterBottom sx={{ color: '#FF9800' }}>
                 Low Stock Alerts
             </Typography>

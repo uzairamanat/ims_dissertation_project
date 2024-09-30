@@ -1,3 +1,5 @@
+// Simple carc domponent, with a title and then how many items are in that section
+
 import React from 'react';
 import { Typography, Card, CardContent } from '@mui/material';
 
@@ -7,7 +9,7 @@ const DashboardCard = ({ title, number, color }) => {
             sx={{ 
                 minWidth: 100,                 
                 textAlign: 'center', 
-                backgroundColor: color || '#f5f5f5', // Use color prop or default to light gray
+                backgroundColor: color || '#f5f5f5',
                 mb: 1 
             }}
         >

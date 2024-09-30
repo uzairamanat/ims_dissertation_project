@@ -1,3 +1,5 @@
+// Form page to edit an order
+
 import React, { useState, useEffect } from 'react';
 import { Box, Button, Select, MenuItem, Typography, FormControl, InputLabel, TextField, Alert, Snackbar } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -20,10 +22,10 @@ const EditOrder = () => {
 
     useEffect(() => {
         const fetchOrder = async () => {
-            const token = localStorage.getItem('token'); // Get JWT token from localStorage
+            const token = localStorage.getItem('token'); 
 
             if (!token) {
-                // If token is missing, redirect to login
+                
                 navigate('/login');
                 return;
             }
@@ -40,10 +42,10 @@ const EditOrder = () => {
         };
 
         const fetchCustomers = async () => {
-            const token = localStorage.getItem('token'); // Get JWT token from localStorage
+            const token = localStorage.getItem('token'); 
 
             if (!token) {
-                // If token is missing, redirect to login
+                
                 navigate('/login');
                 return;
             }
@@ -61,10 +63,10 @@ const EditOrder = () => {
         };
 
         const fetchProducts = async () => {
-            const token = localStorage.getItem('token'); // Get JWT token from localStorage
+            const token = localStorage.getItem('token'); 
 
             if (!token) {
-                // If token is missing, redirect to login
+                
                 navigate('/login');
                 return;
             }
@@ -140,10 +142,10 @@ const EditOrder = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const token = localStorage.getItem('token'); // Get JWT token from localStorage
+        const token = localStorage.getItem('token'); 
 
         if (!token) {
-            // If token is missing, redirect to login
+            
             navigate('/login');
             return;
         }
@@ -155,9 +157,9 @@ const EditOrder = () => {
             });
             // Show success message and Snackbar
             setSuccessMessage('Order updated successfully!');
-            setShowSnackbar(true); // Show Snackbar
+            setShowSnackbar(true); 
 
-            // Set a timeout to navigate to the customers page after showing the notification
+            
             setTimeout(() => {
                 navigate('/orders'); // Navigate to the customers list page
             }, 2000); // 2-second delay before navigating
@@ -233,8 +235,8 @@ const EditOrder = () => {
             {/* Snackbar for success notification */}
             <Snackbar
                 open={showSnackbar}
-                autoHideDuration={6000} // 6 seconds
-                onClose={() => setShowSnackbar(false)} // Close after auto-hide or manually
+                autoHideDuration={6000} 
+                onClose={() => setShowSnackbar(false)} 
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
             >
                 <Alert onClose={() => setShowSnackbar(false)} severity="success" sx={{ width: '100%' }}>

@@ -1,3 +1,5 @@
+// Main customers page with data table
+
 import React, { useEffect, useState } from 'react';
 import {
     Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, 
@@ -21,10 +23,10 @@ const Customers = () => {
 
     useEffect(() => {
         const fetchCustomers = async () => {
-            const token = localStorage.getItem('token'); // Get JWT token from localStorage
+            const token = localStorage.getItem('token'); 
 
             if (!token) {
-                // If token is missing, redirect to login
+                
                 navigate('/login');
                 return;
             }
@@ -48,10 +50,10 @@ const Customers = () => {
         const isConfirmed = window.confirm('Are you sure you want to delete this customer?'); // Confirmation step
         if (!isConfirmed) return; // If the user clicks "Cancel", do nothing
 
-        const token = localStorage.getItem('token'); // Get JWT token from localStorage
+        const token = localStorage.getItem('token'); 
 
         if (!token) {
-            // If token is missing, redirect to login
+            
             navigate('/login');
             return;
         }

@@ -1,3 +1,5 @@
+// Dashboard landing Page
+
 import React, { useState, useEffect } from 'react';
 import SalesByCategoryChart from "components/SalesByCategoryChart";
 import SalesOverTimeChart from "components/SalesOverTimeChart"; 
@@ -12,11 +14,11 @@ const Dashboard = () => {
     const [productCount, setProductCount] = useState(0);
     const [customerCount, setCustomerCount] = useState(0);
     const [orderCount, setOrderCount] = useState(0);
-    const navigate = useNavigate();  // Hook to navigate between routes
+    const navigate = useNavigate();  
 
     useEffect(() => {
         const fetchCounts = async () => {
-            const token = localStorage.getItem('token');  // Get JWT token from localStorage
+            const token = localStorage.getItem('token');
 
             if (!token) {
                 // If token is missing, redirect to login
@@ -40,7 +42,7 @@ const Dashboard = () => {
                 setOrderCount(orderResponse.data.length);
             } catch (error) {
                 if (error.response && error.response.status === 401) {
-                    // If unauthorized, redirect to login page
+                    // If unauthorised, redirect to login page
                     navigate('/login');
                 } else {
                     console.error('Error fetching data:', error);

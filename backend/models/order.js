@@ -1,3 +1,5 @@
+// Mongoose schema to store data for orders
+
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -10,7 +12,7 @@ const orderItemSchema = new Schema({
 
 const orderSchema = new Schema({
     customer: { type: Schema.Types.ObjectId, ref: 'Customer', required: true }, // References customer schema
-    items: [orderItemSchema],                                    // Stores all the items in any single order
+    items: [orderItemSchema],                                    // Stores all the items in any single order as its own schema
     totalAmount: { type: Number, required: true },               // The total price of the order
     date: { type: Date, default: Date.now },                     // Date of the order  
 });

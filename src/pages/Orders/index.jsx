@@ -1,3 +1,5 @@
+// Main orders page
+
 import React, { useEffect, useState } from 'react';
 import {
     Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, 
@@ -21,10 +23,10 @@ const Orders = () => {
 
     useEffect(() => {
         const fetchOrders = async () => {
-            const token = localStorage.getItem('token'); // Get JWT token from localStorage
+            const token = localStorage.getItem('token'); 
 
             if (!token) {
-                // If token is missing, redirect to login
+                
                 navigate('/login');
                 return;
             }
@@ -47,10 +49,10 @@ const Orders = () => {
     const handleDelete = async (id) => {
         const isConfirmed = window.confirm('Are you sure you want to delete this order?'); // Confirmation step
         if (!isConfirmed) return; // If the user clicks "Cancel", do nothing
-        const token = localStorage.getItem('token'); // Get JWT token from localStorage
+        const token = localStorage.getItem('token'); 
 
         if (!token) {
-            // If token is missing, redirect to login
+            
             navigate('/login');
             return;
         }
@@ -65,11 +67,13 @@ const Orders = () => {
         }
     };
     
+
+    // Creates the invoice as a pdf
     const handleExport = async (orderId) => {
-        const token = localStorage.getItem('token'); // Get JWT token from localStorage
+        const token = localStorage.getItem('token'); 
 
         if (!token) {
-            // If token is missing, redirect to login
+            
             navigate('/login');
             return;
         }

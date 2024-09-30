@@ -1,3 +1,5 @@
+// Page that ensures that the navbar and sidebar are always visible
+
 import React, { useState } from 'react';
 import { Outlet } from "react-router-dom";
 import { Box, useMediaQuery } from "@mui/material";

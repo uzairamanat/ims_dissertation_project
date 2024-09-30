@@ -1,3 +1,5 @@
+// Login Page
+
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -29,7 +31,7 @@ const Login = () => {
             display:'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundImage: 'url(https://i.imgur.com/GhPQ3Kl.jpeg)',
+            backgroundImage: 'url(https://i.imgur.com/GhPQ3Kl.jpeg)',  // Background image
             backgroundSize: 'cover',
             backgroundPosition: 'center'
 

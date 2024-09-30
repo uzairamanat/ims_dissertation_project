@@ -1,3 +1,5 @@
+// Form page to create a new order
+
 import React, { useState, useEffect } from 'react';
 import { Box, Button, TextField, MenuItem, Typography, Select, FormControl, InputLabel, Alert, Snackbar } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
@@ -19,10 +21,10 @@ const NewOrder = () => {
 
     useEffect(() => {
         const fetchCustomers = async () => {
-            const token = localStorage.getItem('token'); // Get JWT token from localStorage
+            const token = localStorage.getItem('token'); 
 
             if (!token) {
-                // If token is missing, redirect to login
+                
                 navigate('/login');
                 return;
             }
@@ -39,10 +41,10 @@ const NewOrder = () => {
         };
 
         const fetchProducts = async () => {
-            const token = localStorage.getItem('token'); // Get JWT token from localStorage
+            const token = localStorage.getItem('token'); 
 
             if (!token) {
-                // If token is missing, redirect to login
+                
                 navigate('/login');
                 return;
             }
@@ -107,10 +109,10 @@ const NewOrder = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const token = localStorage.getItem('token'); // Get JWT token from localStorage
+        const token = localStorage.getItem('token'); 
 
         if (!token) {
-            // If token is missing, redirect to login
+            
             navigate('/login');
             return;
         }
@@ -132,7 +134,7 @@ const NewOrder = () => {
             // Show success message
             setSuccessMessage('Order created successfully!');
             setShowSnackbar(true);
-            // Set a timeout to navigate to the orders page after showing the notification
+            
             setTimeout(() => {
                 navigate('/orders'); // Navigate to the orders page
             }, 2000); // 2-second delay before navigating

@@ -1,3 +1,5 @@
+// Top Navbar with the settings buttons
+
 import React, { useState } from 'react';
 import { LightModeOutlined, DarkModeOutlined, SettingsOutlined } from '@mui/icons-material';
 import FlexBetween from './FlexBetween';

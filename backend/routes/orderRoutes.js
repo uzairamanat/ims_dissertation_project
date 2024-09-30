@@ -1,3 +1,5 @@
+// All the routes related to order management
+
 const express = require('express');
 const router = express.Router();
 const Order = require('../models/Order');

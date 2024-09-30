@@ -1,3 +1,5 @@
+// All the routes related to product management
+
 const express = require('express');
 const router = express.Router();
 const Product = require('../models/Product');
@@ -66,7 +68,7 @@ router.delete('/:id', auth, async (req, res) => {
     }
 });
 
-//Low stock alert route
+// Low stock alert route
 router.get('/alerts/low-stock', auth, async (req, res) => {
     try {
         const products = await Product.find({ quantity: { $lt: 10 } }); // Threshold set to 10 for low stock

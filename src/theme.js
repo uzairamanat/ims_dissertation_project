@@ -1,3 +1,5 @@
+// All the code for light and dark mode colours
+
 // color design tokens export
 export const tokensDark = {
     grey: {
@@ -107,6 +109,8 @@ export const tokensDark = {
               },
             }),
       },
+
+      // global font settings
       typography: {
         fontFamily: ["Inter", "sans-serif"].join(","),
         fontSize: 12,

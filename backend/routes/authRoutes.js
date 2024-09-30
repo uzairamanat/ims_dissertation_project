@@ -1,3 +1,5 @@
+// All the routes related to authentication
+
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -10,7 +12,7 @@ const auth = require('../middleware/auth');
 router.post(
     '/register',
     [
-        check('username', 'Username is required').not().isEmpty(),  // Changed to username validation
+        check('username', 'Username is required').not().isEmpty(),  // Validates an entry
         check('password', 'Password is required').exists(),
     ],
     async (req, res) => {
@@ -29,7 +31,7 @@ router.post(
             }
 
             user = new User({
-                username,  // Save the username instead of email
+                username,  // Saves the username
                 password,
             });
 
@@ -62,7 +64,7 @@ router.post(
 router.post(
     '/login',
     [
-        check('username', 'Username is required').not().isEmpty(),  // Changed to username validation
+        check('username', 'Username is required').not().isEmpty(),  
         check('password', 'Password is required').exists(),
     ],
     async (req, res) => {
@@ -71,7 +73,7 @@ router.post(
             return res.status(400).json({ errors: errors.array() });
         }
 
-        const { username, password } = req.body;  // Changed to username
+        const { username, password } = req.body; 
 
         try {
             let user = await User.findOne({ username });  // Find the user by username
@@ -164,7 +166,7 @@ router.put(
             const isMatch = await bcrypt.compare(currentPassword, user.password);
 
             if (!isMatch) {
-                return res.status(400).json({ msg: 'Current password is incorrect' });
+                return res.status(400).json({ msg: 'Current password is incorrect' });  // Error when current password doesn't match
             }
 
             const salt = await bcrypt.genSalt(10);

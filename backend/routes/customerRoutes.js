@@ -1,3 +1,5 @@
+// All the routes related to customer management
+
 const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');

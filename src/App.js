@@ -1,3 +1,6 @@
+// The main app file, containing all the routes for navigation.
+
+
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material";
 import { useMemo } from "react";
@@ -18,6 +21,7 @@ import EditOrder from "pages/EditOrder";
 import Login from "pages/Login";
 import ProfileUpdate from "components/ProfileUpdate";
 
+// Ensures private routes need token for access
 function PrivateRoute({ children }) {
   const token = localStorage.getItem('token');
   return token ? children : <Navigate to="/login" replace />;

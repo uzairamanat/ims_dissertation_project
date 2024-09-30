@@ -1,3 +1,5 @@
+// Main navigation sidebar
+
 import React, {useState, useEffect } from 'react';
 import {
   Box,
@@ -18,13 +20,11 @@ import {
   ShoppingCartOutlined,
   Groups2Outlined,
   ReceiptLongOutlined,
-  TodayOutlined,
-  CalendarMonthOutlined,
-  PieChartOutlined
 } from '@mui/icons-material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import FlexBetween from './FlexBetween';
 
+// The menu list
 const navItems = [
   { text: "Dashboard", icon: <HomeOutlined /> },
   { text: "Products", icon: <ShoppingCartOutlined /> },

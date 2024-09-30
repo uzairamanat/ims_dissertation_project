@@ -1,3 +1,5 @@
+// Mongoose schema to store data for users
+
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({

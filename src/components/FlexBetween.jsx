@@ -1,3 +1,5 @@
+// Simple reusable styling component to reduce CSS
+
 import { Box, styled } from "@mui/material";
 
 const FlexBetween = styled(Box)({
