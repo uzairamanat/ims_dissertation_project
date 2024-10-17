@@ -2,7 +2,8 @@
 
 const express = require('express');
 const router = express.Router();
-const Product = require('../models/Product');
+const path = require('path');
+const Product = require(path.resolve(__dirname, '../models/Product'));
 const auth = require('../middleware/auth');
 
 // Create a new product
