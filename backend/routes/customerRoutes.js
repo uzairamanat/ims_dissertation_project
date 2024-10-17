@@ -2,8 +2,9 @@
 
 const express = require('express');
 const router = express.Router();
-const auth = require('../middleware/auth');
-const Customer = require('../models/Customer');
+const path = require('path');
+const auth = require(path.resolve(__dirname, '../middleware/auth'));
+const Customer = require(path.resolve(__dirname, '../models/Customer'));
 
 // Create a new customer
 router.post('/', auth, async (req, res) => {

@@ -2,11 +2,12 @@
 
 const express = require('express');
 const router = express.Router();
-const Order = require('../models/Order');
-const Product = require('../models/Product');
-const Customer = require('../models/Customer');
-const SalesData = require('../models/SalesData');
-const auth = require('../middleware/auth');
+const path = require('path');
+const Order = require(path.resolve(__dirname, '../models/Order'));
+const Product = require(path.resolve(__dirname,'../models/Product'));
+const Customer = require(path.resolve(__dirname,'../models/Customer'));
+const SalesData = require(path.resolve(__dirname,'../models/SalesData'));
+const auth = require(path.resolve(__dirname,'../middleware/auth'));
 
 // Create a new order using customer name and product name/SKU
 router.post('/', auth, async (req, res) => {

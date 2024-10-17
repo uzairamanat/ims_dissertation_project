@@ -2,7 +2,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const auth = require('./middleware/auth'); // Middleware for authentication (JWT verification)
+const path = require('path'); // Add path module for resolving absolute paths
+// Middleware for authentication (JWT verification)
 require('dotenv').config(); // Load environment variables from .env file
 
 const app = express();
@@ -11,7 +12,8 @@ const PORT = process.env.PORT || 5000; // Defines the port and it's server numbe
 // Middleware
 app.use(cors()); // Enable Cross-Origin Resource Sharing (allow requests from different domains)
 app.use(express.json()); // Parse incoming JSON requests
-app.use('/api/auth', require('./routes/authRoutes')); // Authentication routes
+const auth = require(path.resolve(__dirname, './middleware/auth')); 
+app.use('/api/auth', require(path.resolve(__dirname, './routes/authRoutes'))); // Authentication routes
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI, {
@@ -22,9 +24,9 @@ mongoose.connect(process.env.MONGO_URI, {
 .catch((err) => console.log(err)); // Log errors
 
 // Protected routes (JWT token/login required)
-app.use('/api/products', auth, require('./routes/productRoutes')); 
-app.use('/api/customers', auth, require('./routes/customerRoutes')); 
-app.use('/api/orders', auth, require('./routes/orderRoutes')); 
+app.use('/api/products', auth, require(path.resolve(__dirname, './routes/productRoutes')));
+app.use('/api/customers', auth, require(path.resolve(__dirname, './routes/customerRoutes')));
+app.use('/api/orders', auth, require(path.resolve(__dirname, './routes/orderRoutes')));
 app.use('/api/salesData', require('./routes/salesRoutes')); // Sales data route (not protected as it just stores stats, but this can be changed)
 
 // Root route

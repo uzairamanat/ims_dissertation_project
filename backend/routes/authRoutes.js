@@ -4,9 +4,10 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
-const User = require('../models/user');
+const path = require('path');
+const auth = require(path.resolve(__dirname, '../middleware/auth'));
+const User = require(path.resolve(__dirname, '../models/user'));
 const router = express.Router();
-const auth = require('../middleware/auth');
 
 // Register a new user
 router.post(
