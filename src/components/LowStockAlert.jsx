@@ -57,7 +57,7 @@ const LowStockAlert = () => {
                 <Typography>No products are running low on stock.</Typography>
             ) : (
                 <TableContainer component={Paper}>
-                    <Table size="small">
+                    <Table size="small" sx={{ background: "transparent"}}>
                         <TableHead>
                             <TableRow>
                                 <TableCell sx={{ fontWeight: 'bold' }}>Product Name</TableCell>

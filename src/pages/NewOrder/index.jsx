@@ -189,7 +189,7 @@ const NewOrder = () => {
             <ul>
                 {order.items.map((item, index) => (
                     <li key={index}>
-                        {item.product.name} - {item.quantity} x {item.priceAtPurchase} = ${item.totalPrice.toFixed(2)}
+                        {item.product.name} - {item.quantity} x {item.priceAtPurchase} = £{item.totalPrice.toFixed(2)}
                     </li>
                 ))}
             </ul>
