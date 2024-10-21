@@ -10,6 +10,7 @@ Please ensure you have Node installed on your computer beforehand. Open the repo
 >> npm install (Installs all necessary dependencies, this may take a few minutes.)
 >> npm start (Starts the backend server)
 
-Once you see the success messages of "Server running" and "MongoDB connected", you can open the deployed frontend url provided in the report and use the app normally. Use the username "username" and password "password". Ensure you keep the backend server running otherwise the app will not function. Please email if oyu have any issues:
+Once you see the success messages of "Server running" and "MongoDB connected", you can open the deployed frontend url provided and use the app normally. Use the username "username" and password "password". Ensure you keep the backend server running otherwise the app will not function. Please email if you have any issues:
 
 Uzair Amanat (190074368@aston.ac.uk)
+Frontend url: https://ims-dissertation-project-frontend.onrender.com
